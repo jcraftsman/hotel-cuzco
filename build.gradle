@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    assertJVersion = '3.10.0'
+    junitVersion = '5.1.0'
+    mockitoVersion = '2.+'
+}
+
+group 'hotel-cuzco'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 10
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+    testCompile group: 'org.assertj', name: 'assertj-core', version: assertJVersion
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoVersion
+}
+
+test {
+    useJUnitPlatform()
+}
