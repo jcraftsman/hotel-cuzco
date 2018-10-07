@@ -30,9 +30,9 @@ class BookingTest {
         var availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler();
         var numberOfGuests = 1;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(SEP_1ST_18, SEP_2ND_18, numberOfGuests);
-        var makeReservationCommandHandler = new MakeReservationCommandHandler();
+        var makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRespository());
         String roomNumber = "101";
-        var makeReservationCommand = new MakeReservationCommand(SEP_1ST_18, SEP_2ND_18, numberOfGuests, roomNumber);
+        var makeReservationCommand = new MakeReservationCommand(roomNumber, SEP_1ST_18, SEP_2ND_18, numberOfGuests);
 
         // When
         makeReservationCommandHandler.handle(makeReservationCommand);

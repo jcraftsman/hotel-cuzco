@@ -17,20 +17,26 @@ public class Hotel {
     private static final Room ROOM_304 = new Room("304", "2 single beds - shared bathroom", 2);
 
     private Iterable<Room> rooms;
+    private String hotelId;
 
 
-    private Hotel(Iterable<Room> rooms) {
+    private Hotel(String hotelId, Iterable<Room> rooms) {
         this.rooms = rooms;
+        this.hotelId = hotelId;
     }
 
     public static Hotel CUZCO() {
-        return new Hotel(List.of(
-                ROOM_101, ROOM_102, ROOM_103,
-                ROOM_201, ROOM_202, ROOM_203, ROOM_204, ROOM_205,
-                ROOM_301, ROOM_302, ROOM_303, ROOM_304));
+        return new Hotel("CUZCO",
+                List.of(ROOM_101, ROOM_102, ROOM_103,
+                        ROOM_201, ROOM_202, ROOM_203, ROOM_204, ROOM_205,
+                        ROOM_301, ROOM_302, ROOM_303, ROOM_304));
     }
 
     public Iterable<Room> allRooms() {
         return rooms;
+    }
+
+    public String id() {
+        return hotelId;
     }
 }
