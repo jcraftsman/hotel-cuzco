@@ -4,8 +4,8 @@ import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.Hotel;
 import hotel.cuzco.booking.domain.Room;
-import hotel.cuzco.booking.infrastructure.RoomInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
+import hotel.cuzco.booking.infrastructure.RoomInMemoryRepository;
 import hotel.cuzco.booking.query.GetAvailableRoomsQuery;
 import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +25,10 @@ class BookingTest {
 
     @BeforeEach
     void setUp() {
-        makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository(), new RoomInMemoryRepository());
-        availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler();
+        RoomInMemoryRepository roomRepository = new RoomInMemoryRepository();
+        roomRepository.addAll(Hotel.CUZCO().allRooms());
+        makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository(), roomRepository);
+        availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomRepository);
     }
 
     @Test
@@ -39,7 +41,7 @@ class BookingTest {
         Iterable<Room> availableRooms = availableRoomsQueryHandler.handle(getAvailableRoomsQuery);
 
         // Then
-        assertThat(availableRooms).isEqualTo(Hotel.CUZCO().allRooms());
+        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(Hotel.CUZCO().allRooms());
     }
 
     @Test

@@ -22,6 +22,15 @@ public class RoomInMemoryRepository implements RoomRepository {
 
     @Override
     public void add(Room room) {
-        rooms.put(room.id(),room);
+        rooms.put(room.id(), room);
+    }
+
+    @Override
+    public Iterable<Room> all() {
+        return rooms.values();
+    }
+
+    public void addAll(Iterable<Room> allRooms) {
+        allRooms.forEach(this::add);
     }
 }
