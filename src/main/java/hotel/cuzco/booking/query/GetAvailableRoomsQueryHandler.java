@@ -4,6 +4,7 @@ import hotel.cuzco.booking.domain.Room;
 import hotel.cuzco.booking.domain.RoomRepository;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class GetAvailableRoomsQueryHandler {
@@ -14,8 +15,14 @@ public class GetAvailableRoomsQueryHandler {
     }
 
     public Iterable<Room> handle(GetAvailableRoomsQuery getAvailableRoomsQuery) {
-        return StreamSupport.stream(roomRepository.all().spliterator(), false)
-                .filter(room -> room.getCapacity()>= getAvailableRoomsQuery.getNumberOfGuests())
+        int numberOfGuests = getAvailableRoomsQuery.getNumberOfGuests();
+        return streamAllRooms()
+                .filter(room -> room.isAvailableFor(numberOfGuests))
                 .collect(Collectors.toList());
     }
+
+    private Stream<Room> streamAllRooms() {
+        return StreamSupport.stream(roomRepository.all().spliterator(), false);
+    }
+
 }

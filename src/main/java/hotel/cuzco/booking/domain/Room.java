@@ -17,4 +17,8 @@ public class Room {
     public RoomId id() {
         return this.roomId;
     }
+
+    public boolean isAvailableFor(int numberOfGuests) {
+        return getCapacity() >= numberOfGuests;
+    }
 }
