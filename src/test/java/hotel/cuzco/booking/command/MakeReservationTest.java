@@ -1,4 +1,6 @@
-import domain.*;
+package hotel.cuzco.booking.command;
+
+import hotel.cuzco.booking.infrastructure.ReservationInMemoryRespository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

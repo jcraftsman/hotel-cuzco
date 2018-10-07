@@ -1,4 +1,4 @@
-package domain;
+package hotel.cuzco.booking.domain;
 
 import java.util.List;
 

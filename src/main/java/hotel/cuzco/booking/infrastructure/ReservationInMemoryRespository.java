@@ -1,4 +1,7 @@
-package domain;
+package hotel.cuzco.booking.infrastructure;
+
+import hotel.cuzco.booking.domain.Reservation;
+import hotel.cuzco.booking.domain.ReservationId;
 
 import java.util.HashMap;
 import java.util.Map;

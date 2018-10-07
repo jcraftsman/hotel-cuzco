@@ -1,4 +1,4 @@
-package domain;
+package hotel.cuzco.booking.query;
 
 import java.time.LocalDate;
 
