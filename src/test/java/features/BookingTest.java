@@ -1,11 +1,13 @@
 package features;
 
-import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
+import hotel.cuzco.booking.domain.Hotel;
+import hotel.cuzco.booking.domain.Room;
 import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
 import hotel.cuzco.booking.query.GetAvailableRoomsQuery;
 import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -17,10 +19,18 @@ class BookingTest {
     private static final LocalDate SEP_1ST_18 = LocalDate.parse("2018-09-01");
     private static final LocalDate SEP_2ND_18 = LocalDate.parse("2018-09-02");
 
+    private MakeReservationCommandHandler makeReservationCommandHandler;
+    private GetAvailableRoomsQueryHandler availableRoomsQueryHandler;
+
+    @BeforeEach
+    void setUp() {
+        makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository());
+        availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler();
+    }
+
     @Test
     void it_returns_all_rooms_available_for_1_night_stay_for_1_guest() {
         // Given
-        var availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler();
         var numberOfGuests = 1;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(SEP_1ST_18, SEP_2ND_18, numberOfGuests);
 
@@ -34,10 +44,8 @@ class BookingTest {
     @Test
     void it_makes_a_room_unavailable_when_already_booked() {
         // Given
-        var availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler();
         var numberOfGuests = 1;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(SEP_1ST_18, SEP_2ND_18, numberOfGuests);
-        var makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository());
         String roomNumber = "101";
         var makeReservationCommand = new MakeReservationCommand(roomNumber, SEP_1ST_18, SEP_2ND_18, numberOfGuests);
 
