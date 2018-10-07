@@ -15,6 +15,6 @@ public class MakeReservationCommandHandler {
         Room room = roomRepository.get(new RoomId(makeReservationCommand.getRoomNumber()));
         Reservation reservation = new Reservation(room);
         this.reservationRepository.add(reservation);
-        return new ReservationMade();
+        return new ReservationMade(reservation);
     }
 }
