@@ -16,11 +16,13 @@ class MakeReservationCommandTest {
 
     private ReservationRepository reservationRepository;
     private MakeReservationCommandHandler makeReservationCommandHandler;
+    private RoomRepository roomRepository;
 
     @BeforeEach
     void setUp() {
         reservationRepository = new ReservationInMemoryRepository();
-        makeReservationCommandHandler = new MakeReservationCommandHandler(reservationRepository);
+        roomRepository = new RoomRepository();
+        makeReservationCommandHandler = new MakeReservationCommandHandler(reservationRepository, roomRepository);
     }
 
     @Test
@@ -31,7 +33,6 @@ class MakeReservationCommandTest {
         var makeReservationCommand = new MakeReservationCommand(roomNumber, SEP_1ST_18, SEP_2ND_18, numberOfGuests);
 
         Room room101 = new Room(roomNumber, "The room 101", 2);
-        RoomRepository roomRepository = new RoomRepository();
         roomRepository.add(room101);
 
         // When

@@ -3,6 +3,7 @@ package hotel.cuzco.booking.domain;
 import java.util.List;
 
 public class Hotel {
+    static final String CUZCO_HOTEL_ID = "CUZCO";
     private static final Room ROOM_101 = new Room("101", "1 king size bed - A/C - Wi-Fi - private bathroom - wheelchair accessible", 2);
     private static final Room ROOM_102 = new Room("102", "2 queen size beds - A/C - Wi-Fi - private bathroom - wheelchair accessible", 4);
     private static final Room ROOM_103 = new Room("103", "3 single beds - A/C - Wi-Fi - private bathroom - wheelchair accessible", 3);
@@ -26,7 +27,7 @@ public class Hotel {
     }
 
     public static Hotel CUZCO() {
-        return new Hotel("CUZCO",
+        return new Hotel(CUZCO_HOTEL_ID,
                 List.of(ROOM_101, ROOM_102, ROOM_103,
                         ROOM_201, ROOM_202, ROOM_203, ROOM_204, ROOM_205,
                         ROOM_301, ROOM_302, ROOM_303, ROOM_304));
