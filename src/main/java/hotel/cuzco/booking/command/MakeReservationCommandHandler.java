@@ -16,7 +16,11 @@ public class MakeReservationCommandHandler {
         ReservationPeriod reservationPeriod = ReservationPeriod
                 .from(makeReservationCommand.getCheckIn())
                 .to(makeReservationCommand.getCheckoutOut());
-        Reservation reservation = new Reservation(room, reservationPeriod);
+        Reservation reservation = new Reservation(
+                room,
+                reservationPeriod,
+                makeReservationCommand.getNumberOfGuests()
+        );
         this.reservationRepository.add(reservation);
         return new ReservationMade(reservation);
     }
