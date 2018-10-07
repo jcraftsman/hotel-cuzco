@@ -3,7 +3,7 @@ package features;
 import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
-import hotel.cuzco.booking.infrastructure.ReservationInMemoryRespository;
+import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
 import hotel.cuzco.booking.query.GetAvailableRoomsQuery;
 import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class BookingTest {
         var availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler();
         var numberOfGuests = 1;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(SEP_1ST_18, SEP_2ND_18, numberOfGuests);
-        var makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRespository());
+        var makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository());
         String roomNumber = "101";
         var makeReservationCommand = new MakeReservationCommand(roomNumber, SEP_1ST_18, SEP_2ND_18, numberOfGuests);
 

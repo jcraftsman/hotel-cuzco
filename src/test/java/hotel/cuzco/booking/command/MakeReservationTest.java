@@ -1,6 +1,6 @@
 package hotel.cuzco.booking.command;
 
-import hotel.cuzco.booking.infrastructure.ReservationInMemoryRespository;
+import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -19,14 +19,14 @@ public class MakeReservationTest {
         var numberOfGuests = 1;
         String roomNumber = "101";
         var makeReservationCommand = new MakeReservationCommand(roomNumber, SEP_1ST_18, SEP_2ND_18, numberOfGuests);
-        var reservationRespository = new ReservationInMemoryRespository();
-        var makeReservationCommandHandler = new MakeReservationCommandHandler(reservationRespository);
+        var reservationRepository = new ReservationInMemoryRepository();
+        var makeReservationCommandHandler = new MakeReservationCommandHandler(reservationRepository);
 
         // When
         var reservationMade = makeReservationCommandHandler.handle(makeReservationCommand);
 
         // Then
-        var savedReservation = reservationRespository.get(reservationMade.id());
+        var savedReservation = reservationRepository.get(reservationMade.id());
         assertThat(savedReservation).isNotNull();
     }
 }
