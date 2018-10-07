@@ -1,6 +1,6 @@
 package hotel.cuzco.booking.command;
 
-import hotel.cuzco.booking.domain.ReservationRepository;
+import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,11 +30,15 @@ class MakeReservationCommandTest {
         String roomNumber = "101";
         var makeReservationCommand = new MakeReservationCommand(roomNumber, SEP_1ST_18, SEP_2ND_18, numberOfGuests);
 
+        Room room101 = new Room(roomNumber, "The room 101", 2);
+        RoomRepository roomRepository = new RoomRepository();
+        roomRepository.add(room101);
+
         // When
         var reservationMade = makeReservationCommandHandler.handle(makeReservationCommand);
 
         // Then
         var savedReservation = reservationRepository.get(reservationMade.id());
-        assertThat(savedReservation).isNotNull();
+        assertThat(savedReservation.room()).isEqualTo(room101);
     }
 }
