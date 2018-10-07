@@ -13,7 +13,10 @@ public class MakeReservationCommandHandler {
 
     public ReservationMade handle(MakeReservationCommand makeReservationCommand) {
         Room room = roomRepository.get(new RoomId(makeReservationCommand.getRoomNumber()));
-        Reservation reservation = new Reservation(room, ReservationPeriod.from(makeReservationCommand.getCheckIn()).to(makeReservationCommand.getCheckoutOut()));
+        ReservationPeriod reservationPeriod = ReservationPeriod
+                .from(makeReservationCommand.getCheckIn())
+                .to(makeReservationCommand.getCheckoutOut());
+        Reservation reservation = new Reservation(room, reservationPeriod);
         this.reservationRepository.add(reservation);
         return new ReservationMade(reservation);
     }
