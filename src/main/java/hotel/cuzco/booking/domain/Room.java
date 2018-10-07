@@ -1,5 +1,8 @@
 package hotel.cuzco.booking.domain;
 
+import lombok.Getter;
+
+@Getter
 public class Room {
     private RoomId roomId;
     private String description;
