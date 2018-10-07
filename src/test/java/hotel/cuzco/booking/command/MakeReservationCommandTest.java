@@ -42,5 +42,6 @@ class MakeReservationCommandTest {
         var savedReservation = reservationRepository.get(reservationMade.id());
         assertThat(savedReservation.id()).isNotNull();
         assertThat(savedReservation.room()).isEqualTo(room101);
+        assertThat(savedReservation.period()).isEqualTo(ReservationPeriod.from(SEP_1ST_18).to(SEP_2ND_18));
     }
 }
