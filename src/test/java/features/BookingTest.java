@@ -4,7 +4,7 @@ import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.Hotel;
 import hotel.cuzco.booking.domain.Room;
-import hotel.cuzco.booking.domain.RoomRepository;
+import hotel.cuzco.booking.infrastructure.RoomInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
 import hotel.cuzco.booking.query.GetAvailableRoomsQuery;
 import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
@@ -25,7 +25,7 @@ class BookingTest {
 
     @BeforeEach
     void setUp() {
-        makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository(), new RoomRepository());
+        makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository(), new RoomInMemoryRepository());
         availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler();
     }
 

@@ -2,6 +2,7 @@ package hotel.cuzco.booking.command;
 
 import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
+import hotel.cuzco.booking.infrastructure.RoomInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ class MakeReservationCommandTest {
     @BeforeEach
     void setUp() {
         reservationRepository = new ReservationInMemoryRepository();
-        roomRepository = new RoomRepository();
+        roomRepository = new RoomInMemoryRepository();
         makeReservationCommandHandler = new MakeReservationCommandHandler(reservationRepository, roomRepository);
     }
 
