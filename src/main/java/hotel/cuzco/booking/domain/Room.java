@@ -25,9 +25,9 @@ public class Room {
         return this.roomId;
     }
 
-    public boolean isAvailableFor(int numberOfGuests) {
+    public boolean isAvailableFor(int numberOfGuests, LocalDate checkInDate, LocalDate checkOutDate) {
         boolean hasEnoughCapacity = getCapacity() >= numberOfGuests;
-        boolean hasNoReservationIsMade = this.reservations.isEmpty();
+        boolean hasNoReservationIsMade = this.reservations.stream().noneMatch(reservation -> reservation.period().overlaps(ReservationPeriod.from(checkInDate).to(checkOutDate)));
         return hasEnoughCapacity && hasNoReservationIsMade;
     }
 

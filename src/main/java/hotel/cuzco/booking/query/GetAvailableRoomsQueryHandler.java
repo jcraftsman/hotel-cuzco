@@ -17,7 +17,7 @@ public class GetAvailableRoomsQueryHandler {
     public Iterable<Room> handle(GetAvailableRoomsQuery getAvailableRoomsQuery) {
         int numberOfGuests = getAvailableRoomsQuery.getNumberOfGuests();
         return streamAllRooms()
-                .filter(room -> room.isAvailableFor(numberOfGuests))
+                .filter(room -> room.isAvailableFor(numberOfGuests, getAvailableRoomsQuery.getCheckIn(), getAvailableRoomsQuery.getCheckOut()))
                 .collect(Collectors.toList());
     }
 

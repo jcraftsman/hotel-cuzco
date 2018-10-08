@@ -19,6 +19,10 @@ public class ReservationPeriod {
         return new ReservationPeriodBuilder(checkInDate);
     }
 
+    public boolean overlaps(ReservationPeriod reservationPeriod) {
+        return !checkInDate.isBefore(reservationPeriod.checkInDate);
+    }
+
     public static class ReservationPeriodBuilder {
 
         private LocalDate checkInDate;

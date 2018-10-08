@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GetAvailableRoomsQueryTest {
 
+    private static final LocalDate DEC_25_18 = LocalDate.parse("2018-12-25");
     private static final LocalDate JAN_1ST_19 = LocalDate.parse("2019-01-01");
     private static final LocalDate JAN_2ND_19 = LocalDate.parse("2019-01-02");
     private static Room SINGLE_ROOM;
@@ -76,5 +77,19 @@ class GetAvailableRoomsQueryTest {
 
         // Then
         assertThat(availableRooms).containsExactlyInAnyOrder(ROOM_FOR_2, ROOM_FOR_4);
+    }
+
+    @Test
+    void it_returns_only_rooms_with_reservations_that_dont_overlap() {
+        // Given
+        int numberOfGuests = 2;
+        var getAvailableRoomsQuery = new GetAvailableRoomsQuery(JAN_1ST_19, JAN_2ND_19, numberOfGuests);
+        ROOM_FOR_2.makeReservation(DEC_25_18, JAN_1ST_19, numberOfGuests);
+
+        // When
+        Iterable<Room> availableRooms = getAvailableRoomsQueryHandler.handle(getAvailableRoomsQuery);
+
+        // Then
+        assertThat(availableRooms).containsExactlyInAnyOrder(ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
     }
 }
