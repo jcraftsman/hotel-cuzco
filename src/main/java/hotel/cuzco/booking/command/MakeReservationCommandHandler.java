@@ -1,6 +1,8 @@
 package hotel.cuzco.booking.command;
 
-import hotel.cuzco.booking.domain.*;
+import hotel.cuzco.booking.domain.ReservationMade;
+import hotel.cuzco.booking.domain.RoomId;
+import hotel.cuzco.booking.domain.RoomRepository;
 
 public class MakeReservationCommandHandler {
     private final RoomRepository roomRepository;
@@ -11,12 +13,11 @@ public class MakeReservationCommandHandler {
 
     public ReservationMade handle(MakeReservationCommand makeReservationCommand) {
         var room = roomRepository.get(new RoomId(makeReservationCommand.getRoomNumber()));
-        var reservationPeriod = ReservationPeriod
-                .from(makeReservationCommand.getCheckIn())
-                .to(makeReservationCommand.getCheckoutOut());
-        var reservation = new Reservation(room, reservationPeriod, makeReservationCommand.getNumberOfGuests());
-        room.addReservation(reservation);
+        var reservationMade = room.makeReservation(
+                makeReservationCommand.getCheckIn(),
+                makeReservationCommand.getCheckoutOut(),
+                makeReservationCommand.getNumberOfGuests());
         this.roomRepository.add(room);
-        return new ReservationMade(reservation);
+        return reservationMade;
     }
 }

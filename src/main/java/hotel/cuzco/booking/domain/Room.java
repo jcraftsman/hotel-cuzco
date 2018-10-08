@@ -8,6 +8,7 @@ import java.util.Collection;
 
 @Getter
 public class Room {
+
     private RoomId roomId;
     private String description;
     private int capacity;
@@ -30,12 +31,10 @@ public class Room {
         return hasEnoughCapacity && hasNoReservationIsMade;
     }
 
-    public void makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
+    public ReservationMade makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
         var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests);
-        this.addReservation(reservation);
+        this.reservations.add(reservation);
+        return new ReservationMade(reservation);
     }
 
-    public void addReservation(Reservation reservation) {
-        this.reservations.add(reservation);
-    }
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class RoomInMemoryRepository implements RoomRepository {
 
-    Map<RoomId, Room> rooms;
+    private Map<RoomId, Room> rooms;
     private ReservationRepository reservationRepository;
 
     public RoomInMemoryRepository(ReservationRepository reservationRepository) {

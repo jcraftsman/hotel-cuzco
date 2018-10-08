@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class BookingTest {
 
+    private static final int NUMBER_OF_ROOMS_IN_CUZCO_HOTEL = 12;
     private static final LocalDate SEP_1ST_18 = LocalDate.parse("2018-09-01");
     private static final LocalDate SEP_2ND_18 = LocalDate.parse("2018-09-02");
 
@@ -25,8 +26,7 @@ class BookingTest {
 
     @BeforeEach
     void setUp() {
-        ReservationInMemoryRepository reservationRepository = new ReservationInMemoryRepository();
-        RoomInMemoryRepository roomRepository = new RoomInMemoryRepository(reservationRepository);
+        var roomRepository = new RoomInMemoryRepository(new ReservationInMemoryRepository());
         roomRepository.addAll(Hotel.CUZCO().allRooms());
         makeReservationCommandHandler = new MakeReservationCommandHandler(roomRepository);
         availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomRepository);
@@ -58,6 +58,7 @@ class BookingTest {
 
         // Then
         Iterable<Room> availableRooms = availableRoomsQueryHandler.handle(getAvailableRoomsQuery);
-        assertThat(availableRooms).hasSize(11);
+        int remainingAvailableRoomsAfterBookingOne = NUMBER_OF_ROOMS_IN_CUZCO_HOTEL - 1;
+        assertThat(availableRooms).hasSize(remainingAvailableRoomsAfterBookingOne);
     }
 }
