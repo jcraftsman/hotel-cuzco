@@ -22,8 +22,8 @@ class MakeReservationCommandTest {
     @BeforeEach
     void setUp() {
         reservationRepository = new ReservationInMemoryRepository();
-        roomRepository = new RoomInMemoryRepository();
-        makeReservationCommandHandler = new MakeReservationCommandHandler(reservationRepository, roomRepository);
+        roomRepository = new RoomInMemoryRepository(reservationRepository);
+        makeReservationCommandHandler = new MakeReservationCommandHandler(roomRepository);
     }
 
     @Test

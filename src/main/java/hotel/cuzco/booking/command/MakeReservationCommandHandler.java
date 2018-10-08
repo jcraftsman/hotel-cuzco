@@ -4,10 +4,8 @@ import hotel.cuzco.booking.domain.*;
 
 public class MakeReservationCommandHandler {
     private final RoomRepository roomRepository;
-    private ReservationRepository reservationRepository;
 
-    public MakeReservationCommandHandler(ReservationRepository reservationRepository, RoomRepository roomRepository) {
-        this.reservationRepository = reservationRepository;
+    public MakeReservationCommandHandler(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
@@ -17,7 +15,8 @@ public class MakeReservationCommandHandler {
                 .from(makeReservationCommand.getCheckIn())
                 .to(makeReservationCommand.getCheckoutOut());
         var reservation = new Reservation(room, reservationPeriod, makeReservationCommand.getNumberOfGuests());
-        this.reservationRepository.add(reservation);
+        room.addReservation(reservation);
+        this.roomRepository.add(room);
         return new ReservationMade(reservation);
     }
 }

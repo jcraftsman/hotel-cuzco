@@ -25,9 +25,10 @@ class BookingTest {
 
     @BeforeEach
     void setUp() {
-        RoomInMemoryRepository roomRepository = new RoomInMemoryRepository();
+        ReservationInMemoryRepository reservationRepository = new ReservationInMemoryRepository();
+        RoomInMemoryRepository roomRepository = new RoomInMemoryRepository(reservationRepository);
         roomRepository.addAll(Hotel.CUZCO().allRooms());
-        makeReservationCommandHandler = new MakeReservationCommandHandler(new ReservationInMemoryRepository(), roomRepository);
+        makeReservationCommandHandler = new MakeReservationCommandHandler(roomRepository);
         availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomRepository);
     }
 

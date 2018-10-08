@@ -1,6 +1,7 @@
 package hotel.cuzco.booking.query;
 
 import hotel.cuzco.booking.domain.Room;
+import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.RoomInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class GetAvailableRoomsQueryTest {
         ROOM_FOR_4 = new Room("4", "a room for four guests", 4);
         ALL_ROOMS = asList(SINGLE_ROOM, ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
 
-        RoomInMemoryRepository roomInMemoryRepository = new RoomInMemoryRepository();
+        RoomInMemoryRepository roomInMemoryRepository = new RoomInMemoryRepository(new ReservationInMemoryRepository());
         roomInMemoryRepository.addAll(ALL_ROOMS);
 
         getAvailableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomInMemoryRepository);

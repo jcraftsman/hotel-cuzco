@@ -31,6 +31,11 @@ public class Room {
     }
 
     public void makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
-        this.reservations.add(new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests));
+        var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests);
+        this.addReservation(reservation);
+    }
+
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
     }
 }
