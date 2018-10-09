@@ -3,6 +3,7 @@ package hotel.cuzco.booking.query;
 import hotel.cuzco.booking.domain.Room;
 import hotel.cuzco.booking.domain.RoomRepository;
 
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -15,10 +16,17 @@ public class GetAvailableRoomsQueryHandler {
     }
 
     public Iterable<Room> handle(GetAvailableRoomsQuery getAvailableRoomsQuery) {
-        int numberOfGuests = getAvailableRoomsQuery.getNumberOfGuests();
         return streamAllRooms()
-                .filter(room -> room.isAvailableFor(numberOfGuests, getAvailableRoomsQuery.getCheckIn(), getAvailableRoomsQuery.getCheckOut()))
+                .filter(isRoomAvailable(getAvailableRoomsQuery))
                 .collect(Collectors.toList());
+    }
+
+    private Predicate<Room> isRoomAvailable(GetAvailableRoomsQuery getAvailableRoomsQuery) {
+        return room -> room.isAvailableFor(
+                getAvailableRoomsQuery.getNumberOfGuests(),
+                getAvailableRoomsQuery.getCheckIn(),
+                getAvailableRoomsQuery.getCheckOut()
+        );
     }
 
     private Stream<Room> streamAllRooms() {

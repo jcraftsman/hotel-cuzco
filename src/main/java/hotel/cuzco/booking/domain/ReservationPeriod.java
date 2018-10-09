@@ -10,7 +10,6 @@ public class ReservationPeriod {
     private final LocalDate checkOutDate;
 
     public ReservationPeriod(LocalDate checkInDate, LocalDate checkOutDate) {
-
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
     }
@@ -19,7 +18,7 @@ public class ReservationPeriod {
         return new ReservationPeriodBuilder(checkInDate);
     }
 
-    public boolean overlaps(ReservationPeriod reservationPeriod) {
+    public boolean isOverlappingWith(ReservationPeriod reservationPeriod) {
         return !checkInDate.isBefore(reservationPeriod.checkInDate);
     }
 

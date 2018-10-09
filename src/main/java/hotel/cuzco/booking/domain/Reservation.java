@@ -29,4 +29,8 @@ public class Reservation {
     public Integer numberOfGuests() {
         return numberOfGuests;
     }
+
+    boolean isOverlappingWith(ReservationPeriod reservationPeriod) {
+        return period().isOverlappingWith(reservationPeriod);
+    }
 }
