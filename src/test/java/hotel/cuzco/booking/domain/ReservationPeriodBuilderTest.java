@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-class ReservationPeriodTest {
+class ReservationPeriodBuilderTest {
 
     private static final LocalDate DEC_23_18 = LocalDate.parse("2018-12-23");
     private static final LocalDate DEC_26_18 = LocalDate.parse("2018-12-26");
