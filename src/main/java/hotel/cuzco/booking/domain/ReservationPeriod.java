@@ -18,8 +18,19 @@ public class ReservationPeriod {
         return new ReservationPeriodBuilder(checkInDate);
     }
 
-    public boolean isOverlappingWith(ReservationPeriod reservationPeriod) {
-        return !checkInDate.isBefore(reservationPeriod.checkInDate);
+    boolean isOverlappingWith(ReservationPeriod anotherReservationPeriod) {
+        return isOverlappingWith(anotherReservationPeriod.checkInDate) ||
+                isOverlappingWith(anotherReservationPeriod.checkOutDate) ||
+                equals(anotherReservationPeriod);
+    }
+
+    private boolean isOverlappingWith(LocalDate stayDate) {
+        return stayDate.isAfter(checkInDate) && stayDate.isBefore(checkOutDate);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + checkInDate + " to " + checkOutDate + "]";
     }
 
     public static class ReservationPeriodBuilder {
