@@ -35,10 +35,12 @@ class ReservationPeriodTest {
                 arguments(JAN_01_TO_JAN_15_19, DEC_25_TO_JAN_01_19, false),
                 arguments(JAN_01_TO_JAN_15_19, JAN_01_TO_JAN_02_19, true),
                 arguments(JAN_01_TO_JAN_15_19, JAN_02_TO_JAN_03_19, true),
-                arguments(JAN_01_TO_JAN_15_19, JAN_01_TO_JAN_03_19, true),
+                arguments(JAN_01_TO_JAN_15_19, JAN_03_TO_JAN_20_19, true),
+                arguments(DEC_25_TO_JAN_01_19, JAN_15_TO_JAN_20_19, false),
                 arguments(JAN_01_TO_JAN_15_19, JAN_15_TO_JAN_20_19, false),
                 arguments(JAN_01_TO_JAN_15_19, JAN_03_TO_JAN_20_19, true),
-                arguments(DEC_25_TO_JAN_01_19, JAN_15_TO_JAN_20_19, false)
+                arguments(JAN_01_TO_JAN_03_19, JAN_01_TO_JAN_15_19, true),
+                arguments(JAN_02_TO_JAN_03_19, JAN_01_TO_JAN_15_19, true)
         );
     }
 
