@@ -18,13 +18,13 @@ public class ReservationPeriod {
         return new ReservationPeriodBuilder(checkInDate);
     }
 
-    boolean isOverlappingWith(ReservationPeriod anotherReservationPeriod) {
-        return isStrictlyOverlappingWith(anotherReservationPeriod) ||
-                anotherReservationPeriod.isStrictlyOverlappingWith(this) ||
+    boolean conflictsWith(ReservationPeriod anotherReservationPeriod) {
+        return isOverlappingWith(anotherReservationPeriod) ||
+                anotherReservationPeriod.isOverlappingWith(this) ||
                 equals(anotherReservationPeriod);
     }
 
-    private boolean isStrictlyOverlappingWith(ReservationPeriod anotherReservationPeriod) {
+    private boolean isOverlappingWith(ReservationPeriod anotherReservationPeriod) {
         return isOverlappingWith(anotherReservationPeriod.checkInDate) ||
                 isOverlappingWith(anotherReservationPeriod.checkOutDate);
     }

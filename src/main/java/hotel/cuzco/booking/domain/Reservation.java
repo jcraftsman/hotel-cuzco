@@ -30,7 +30,7 @@ public class Reservation {
         return numberOfGuests;
     }
 
-    boolean isOverlappingWith(ReservationPeriod reservationPeriod) {
-        return period().isOverlappingWith(reservationPeriod);
+    boolean conflictsWith(ReservationPeriod reservationPeriod) {
+        return period().conflictsWith(reservationPeriod);
     }
 }

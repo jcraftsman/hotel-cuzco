@@ -26,7 +26,7 @@ public class Room {
     }
 
     public boolean isAvailableFor(int numberOfGuests, LocalDate checkInDate, LocalDate checkOutDate) {
-        return hasEnoughCapacity(numberOfGuests) && hasNoOverlappingReservation(checkInDate, checkOutDate);
+        return hasEnoughCapacity(numberOfGuests) && hasNoConflictingReservation(checkInDate, checkOutDate);
     }
 
     public ReservationMade makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
@@ -39,10 +39,10 @@ public class Room {
         return getCapacity() >= numberOfGuests;
     }
 
-    private boolean hasNoOverlappingReservation(LocalDate checkInDate, LocalDate checkOutDate) {
+    private boolean hasNoConflictingReservation(LocalDate checkInDate, LocalDate checkOutDate) {
         var reservationPeriod = ReservationPeriod.from(checkInDate).to(checkOutDate);
         return this.reservations.stream()
-                .noneMatch(reservation -> reservation.isOverlappingWith(reservationPeriod));
+                .noneMatch(reservation -> reservation.conflictsWith(reservationPeriod));
     }
 
 }

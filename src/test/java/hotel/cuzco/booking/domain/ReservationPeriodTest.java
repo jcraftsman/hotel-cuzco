@@ -44,14 +44,17 @@ class ReservationPeriodTest {
         );
     }
 
-    @ParameterizedTest(name = "{index} ==> {0} isOverlappingWith {1} should be {2}")
+    @ParameterizedTest(name = "{index} ==> {0} conflictsWith {1} should be {2}")
     @MethodSource("reservationPeriods")
-    void isOverlappingWith(ReservationPeriod reservationPeriod, ReservationPeriod anotherReservationPeriod, boolean shouldItOverlap) {
+    void conflictsWith(ReservationPeriod reservationPeriod,
+                       ReservationPeriod anotherReservationPeriod,
+                       boolean shouldItConflict) {
+
         // When
-        boolean doesItOverlap = reservationPeriod
-                .isOverlappingWith(anotherReservationPeriod);
+        boolean doesItConflict = reservationPeriod
+                .conflictsWith(anotherReservationPeriod);
 
         // Then
-        assertThat(doesItOverlap).isEqualTo(shouldItOverlap);
+        assertThat(doesItConflict).isEqualTo(shouldItConflict);
     }
 }

@@ -79,7 +79,7 @@ class GetAvailableRoomsQueryTest {
     }
 
     @Test
-    void it_returns_all_rooms_when_their_reservations_dont_overlap_with_requested_availability_period() {
+    void it_returns_all_rooms_when_their_reservations_dont_conflict_with_requested_availability_period() {
         // Given
         int numberOfGuests = 1;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(JAN_1ST_19, JAN_2ND_19, numberOfGuests);
