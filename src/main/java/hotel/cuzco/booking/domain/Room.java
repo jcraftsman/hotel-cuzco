@@ -30,6 +30,7 @@ public class Room {
     }
 
     public ReservationMade makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
+        checkAvailability(checkInDate, checkOutDate, numberOfGuests);
         var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests);
         this.reservations.add(reservation);
         return new ReservationMade(reservation);
@@ -43,6 +44,12 @@ public class Room {
         var reservationPeriod = ReservationPeriod.from(checkInDate).to(checkOutDate);
         return this.reservations.stream()
                 .noneMatch(reservation -> reservation.conflictsWith(reservationPeriod));
+    }
+
+    private void checkAvailability(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
+        if (!isAvailableFor(numberOfGuests, checkInDate, checkOutDate)) {
+            throw new UnavailableForReservationException();
+        }
     }
 
 }

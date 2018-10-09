@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 class MakeReservationCommandTest {
 
@@ -45,5 +46,22 @@ class MakeReservationCommandTest {
         assertThat(savedReservation.room()).isEqualTo(room101);
         assertThat(savedReservation.period()).isEqualTo(ReservationPeriod.from(SEP_1ST_18).to(SEP_2ND_18));
         assertThat(savedReservation.numberOfGuests()).isEqualTo(numberOfGuests);
+    }
+
+    @Test
+    void it_raises_an_UnavailableForReservationException_when_the_room_is_not_available_for_requested_reservation() {
+        // Given
+        var numberOfGuests = 5;
+        String roomNumber = "102";
+        var makeReservationCommand = new MakeReservationCommand(roomNumber, SEP_1ST_18, SEP_2ND_18, numberOfGuests);
+
+        Room tooSmallRoom = new Room(roomNumber, "The small room", 1);
+        roomRepository.add(tooSmallRoom);
+
+        // When
+        Throwable raisedException = catchThrowable(() -> makeReservationCommandHandler.handle(makeReservationCommand));
+
+        // Then
+        assertThat(raisedException).isInstanceOf(UnavailableForReservationException.class);
     }
 }
