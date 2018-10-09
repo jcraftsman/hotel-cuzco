@@ -35,5 +35,13 @@ class ReservationPeriodTest {
         assertThat(raisedException).isInstanceOf(InvalidReservationPeriodException.class);
     }
 
+    @Test
+    void it_raises_a_oneNightReservationIsNotAllowedException_when_checkInDate_is_same_as_the_checkout_date() {
+        // When
+        var raisedException = catchThrowable(() -> ReservationPeriod.from(DEC_23_18).to(DEC_23_18));
+
+        // Then
+        assertThat(raisedException).isInstanceOf(OneNightReservationIsNotAllowedException.class);
+    }
 
 }

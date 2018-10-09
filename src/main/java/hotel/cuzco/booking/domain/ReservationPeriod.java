@@ -36,14 +36,20 @@ public class ReservationPeriod {
         }
 
         private void checkIsValid(LocalDate checkOutDate) {
-            if(checkInDate.isAfter(checkOutDate)){
+            if (checkInDate.isAfter(checkOutDate)) {
                 throw new InvalidReservationPeriodException();
             }
+            if (checkInDate.isEqual(checkOutDate)) {
+                throw new OneNightReservationIsNotAllowedException();
+            }
         }
+
     }
 
 }
 
 class InvalidReservationPeriodException extends RuntimeException {
+}
 
+class OneNightReservationIsNotAllowedException extends InvalidReservationPeriodException {
 }
