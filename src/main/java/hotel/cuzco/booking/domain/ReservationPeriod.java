@@ -9,7 +9,7 @@ public class ReservationPeriod {
     private final LocalDate checkInDate;
     private final LocalDate checkOutDate;
 
-    public ReservationPeriod(LocalDate checkInDate, LocalDate checkOutDate) {
+    private ReservationPeriod(LocalDate checkInDate, LocalDate checkOutDate) {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
     }
