@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,11 +16,11 @@ class GetAvailableRoomsQueryTest {
     private static final LocalDate DEC_25_18 = LocalDate.parse("2018-12-25");
     private static final LocalDate JAN_1ST_19 = LocalDate.parse("2019-01-01");
     private static final LocalDate JAN_2ND_19 = LocalDate.parse("2019-01-02");
+
     private static Room SINGLE_ROOM;
     private static Room ROOM_FOR_2;
     private static Room ROOM_FOR_3;
     private static Room ROOM_FOR_4;
-    private static List<Room> ALL_ROOMS;
 
     private GetAvailableRoomsQueryHandler getAvailableRoomsQueryHandler;
 
@@ -31,7 +30,7 @@ class GetAvailableRoomsQueryTest {
         ROOM_FOR_2 = new Room("2", "a room for two guests", 2);
         ROOM_FOR_3 = new Room("3", "a room for three guests", 3);
         ROOM_FOR_4 = new Room("4", "a room for four guests", 4);
-        ALL_ROOMS = asList(SINGLE_ROOM, ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
+        var ALL_ROOMS = asList(SINGLE_ROOM, ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
 
         RoomInMemoryRepository roomInMemoryRepository = new RoomInMemoryRepository(new ReservationInMemoryRepository());
         roomInMemoryRepository.addAll(ALL_ROOMS);
@@ -49,11 +48,11 @@ class GetAvailableRoomsQueryTest {
         Iterable<Room> availableRooms = getAvailableRoomsQueryHandler.handle(getAvailableRoomsQuery);
 
         // Then
-        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(ALL_ROOMS);
+        assertThat(availableRooms).containsExactlyInAnyOrder(SINGLE_ROOM, ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
     }
 
     @Test
-    void it_returns_only_rooms_for_2_3_and_4_when_number_of_guests_is_2() {
+    void it_returns_only_rooms_with_enough_capacity_to_host_2_guests() {
         // Given
         int numberOfGuests = 2;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(JAN_1ST_19, JAN_2ND_19, numberOfGuests);
@@ -66,9 +65,9 @@ class GetAvailableRoomsQueryTest {
     }
 
     @Test
-    void it_returns_only_rooms_for_2_and_4_when_number_of_guests_is_2_and_room_for_3_has_a_reservation() {
+    void it_returns_only_rooms_without_any_reservation_in_the_same_period() {
         // Given
-        int numberOfGuests = 2;
+        int numberOfGuests = 1;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(JAN_1ST_19, JAN_2ND_19, numberOfGuests);
         ROOM_FOR_3.makeReservation(JAN_1ST_19, JAN_2ND_19, numberOfGuests);
 
@@ -76,13 +75,13 @@ class GetAvailableRoomsQueryTest {
         Iterable<Room> availableRooms = getAvailableRoomsQueryHandler.handle(getAvailableRoomsQuery);
 
         // Then
-        assertThat(availableRooms).containsExactlyInAnyOrder(ROOM_FOR_2, ROOM_FOR_4);
+        assertThat(availableRooms).containsExactlyInAnyOrder(SINGLE_ROOM, ROOM_FOR_2, ROOM_FOR_4);
     }
 
     @Test
-    void it_returns_only_rooms_with_reservations_that_dont_overlap() {
+    void it_returns_all_rooms_when_their_reservations_dont_overlap_with_requested_availability_period() {
         // Given
-        int numberOfGuests = 2;
+        int numberOfGuests = 1;
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(JAN_1ST_19, JAN_2ND_19, numberOfGuests);
         ROOM_FOR_2.makeReservation(DEC_25_18, JAN_1ST_19, numberOfGuests);
 
@@ -90,6 +89,6 @@ class GetAvailableRoomsQueryTest {
         Iterable<Room> availableRooms = getAvailableRoomsQueryHandler.handle(getAvailableRoomsQuery);
 
         // Then
-        assertThat(availableRooms).containsExactlyInAnyOrder(ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
+        assertThat(availableRooms).containsExactlyInAnyOrder(SINGLE_ROOM, ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
     }
 }
