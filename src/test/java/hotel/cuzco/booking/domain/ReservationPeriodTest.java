@@ -22,10 +22,10 @@ class ReservationPeriodTest {
     private static final ReservationPeriod DEC_25_TO_JAN_01_19 = ReservationPeriod.from(DEC_25_18).to(JAN_01_19);
     private static final ReservationPeriod JAN_01_TO_JAN_15_19 = ReservationPeriod.from(JAN_01_19).to(JAN_15_19);
     private static final ReservationPeriod JAN_01_TO_JAN_02_19 = ReservationPeriod.from(JAN_01_19).to(JAN_02_19);
-    private static final ReservationPeriod JAN_02_TO_JAN_03_19 = ReservationPeriod.from(JAN_02_19).to(JAN_03_19);
     private static final ReservationPeriod JAN_01_TO_JAN_03_19 = ReservationPeriod.from(JAN_01_19).to(JAN_03_19);
-    private static final ReservationPeriod JAN_15_TO_JAN_20_19 = ReservationPeriod.from(JAN_15_19).to(JAN_20_19);
+    private static final ReservationPeriod JAN_02_TO_JAN_03_19 = ReservationPeriod.from(JAN_02_19).to(JAN_03_19);
     private static final ReservationPeriod JAN_03_TO_JAN_20_19 = ReservationPeriod.from(JAN_03_19).to(JAN_20_19);
+    private static final ReservationPeriod JAN_15_TO_JAN_20_19 = ReservationPeriod.from(JAN_15_19).to(JAN_20_19);
 
 
     private static Stream<Arguments> reservationPeriods() {

@@ -7,7 +7,7 @@ public class Reservation {
     private ReservationPeriod reservationPeriod;
     private Integer numberOfGuests;
 
-    public Reservation(Room room, ReservationPeriod reservationPeriod, int numberOfGuests) {
+    Reservation(Room room, ReservationPeriod reservationPeriod, int numberOfGuests) {
         this.numberOfGuests = numberOfGuests;
         this.reservationId = new ReservationId();
         this.room = room;
