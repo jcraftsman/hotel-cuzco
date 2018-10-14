@@ -1,4 +1,4 @@
-package hotel.cuzco.booking.infrastructure;
+package hotel.cuzco.booking.infrastructure.database.inmemory;
 
 import hotel.cuzco.booking.domain.Reservation;
 import hotel.cuzco.booking.domain.ReservationId;
@@ -21,6 +21,6 @@ public class ReservationInMemoryRepository implements ReservationRepository {
 
     @Override
     public void add(Reservation reservation) {
-        reservations.put(reservation.id(),reservation);
+        reservations.put(reservation.id(), reservation);
     }
 }

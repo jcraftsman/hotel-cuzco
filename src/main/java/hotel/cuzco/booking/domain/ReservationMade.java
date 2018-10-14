@@ -10,4 +10,12 @@ public class ReservationMade {
     public ReservationId id() {
         return reservationId;
     }
+
+    private ReservationMade(ReservationId reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public static ReservationMade random() {
+        return new ReservationMade(new ReservationId());
+    }
 }

@@ -1,4 +1,4 @@
-package hotel.cuzco.booking.infrastructure;
+package hotel.cuzco.booking.infrastructure.database.inmemory;
 
 import hotel.cuzco.booking.domain.ReservationRepository;
 import hotel.cuzco.booking.domain.Room;
@@ -36,5 +36,9 @@ public class RoomInMemoryRepository implements RoomRepository {
 
     public void addAll(Iterable<Room> allRooms) {
         allRooms.forEach(this::add);
+    }
+
+    public void deleteAll() {
+        rooms.clear();
     }
 }

@@ -4,8 +4,8 @@ import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.Hotel;
 import hotel.cuzco.booking.domain.Room;
-import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
-import hotel.cuzco.booking.infrastructure.RoomInMemoryRepository;
+import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
+import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import hotel.cuzco.booking.query.GetAvailableRoomsQuery;
 import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,11 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class BookingTest {
 
+    private static final Iterable<Room> ALL_ROOMS_IN_CUZCO_HOTEL = Hotel.CUZCO().allRooms();
     private static final int NUMBER_OF_ROOMS_IN_CUZCO_HOTEL = 12;
-    private static final LocalDate SEP_1ST_18 = LocalDate.parse("2018-09-01");
-    private static final LocalDate SEP_2ND_18 = LocalDate.parse("2018-09-02");
     private static final int ONE_GUEST = 1;
     private static final String NUMBER_101 = "101";
+    private static final LocalDate SEP_1ST_18 = LocalDate.parse("2018-09-01");
+    private static final LocalDate SEP_2ND_18 = LocalDate.parse("2018-09-02");
 
     private MakeReservationCommandHandler makeReservationCommandHandler;
     private GetAvailableRoomsQueryHandler availableRoomsQueryHandler;
@@ -29,7 +30,7 @@ class BookingTest {
     @BeforeEach
     void setUp() {
         var roomRepository = new RoomInMemoryRepository(new ReservationInMemoryRepository());
-        roomRepository.addAll(Hotel.CUZCO().allRooms());
+        roomRepository.addAll(ALL_ROOMS_IN_CUZCO_HOTEL);
         makeReservationCommandHandler = new MakeReservationCommandHandler(roomRepository);
         availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomRepository);
     }
@@ -43,7 +44,7 @@ class BookingTest {
         Iterable<Room> availableRooms = availableRoomsQueryHandler.handle(getAvailableRoomsQuery);
 
         // Then
-        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(Hotel.CUZCO().allRooms());
+        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(ALL_ROOMS_IN_CUZCO_HOTEL);
     }
 
     @Test

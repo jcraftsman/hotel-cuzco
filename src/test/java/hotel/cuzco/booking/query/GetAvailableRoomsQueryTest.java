@@ -1,8 +1,8 @@
 package hotel.cuzco.booking.query;
 
 import hotel.cuzco.booking.domain.Room;
-import hotel.cuzco.booking.infrastructure.ReservationInMemoryRepository;
-import hotel.cuzco.booking.infrastructure.RoomInMemoryRepository;
+import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
+import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
