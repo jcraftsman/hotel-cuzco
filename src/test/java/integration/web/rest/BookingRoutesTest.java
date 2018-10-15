@@ -67,7 +67,7 @@ class BookingRoutesTest {
                 .statusCode(200)
                 .contentType(JSON)
                 .body("$.size()", is(12))
-                .body("roomNumber", hasItems(ALL_ROOM_NUMBERS));
+                .body("room-number", hasItems(ALL_ROOM_NUMBERS));
     }
 
     @Test
@@ -82,7 +82,7 @@ class BookingRoutesTest {
                 .statusCode(200)
                 .contentType(JSON)
                 .body("$.size()", is(1))
-                .body("roomNumber", hasItem(ROOM_FOR_FIVE))
+                .body("room-number", hasItem(ROOM_FOR_FIVE))
                 .body("description", hasItem(ROOM_FOR_FIVE_DESCRIPTION))
                 .body("capacity", hasItem(FIVE_GUESTS));
     }

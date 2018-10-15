@@ -19,7 +19,7 @@ public class RoomDto {
     @Override
     public String toString() {
         return Json.object()
-                .add("roomNumber", roomNumber)
+                .add("room-number", roomNumber)
                 .add("description", description)
                 .add("capacity", capacity)
                 .toString();
