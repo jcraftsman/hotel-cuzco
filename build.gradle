@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     compile group: 'com.sparkjava', name: 'spark-core', version: sparkjavaVersion
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
     compile group: 'com.eclipsesource.minimal-json', name: 'minimal-json', version: minimalJsonVersion
     compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
 

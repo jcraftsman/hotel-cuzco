@@ -1,5 +1,6 @@
 package hotel.cuzco.booking.infrastructure.web.rest.json;
 
+import com.eclipsesource.json.Json;
 import hotel.cuzco.booking.domain.Room;
 import lombok.Data;
 
@@ -13,5 +14,14 @@ public class RoomDto {
         this.roomNumber = room.getRoomId().getRoomNumber();
         this.description = room.getDescription();
         this.capacity = room.getCapacity();
+    }
+
+    @Override
+    public String toString() {
+        return Json.object()
+                .add("roomNumber", roomNumber)
+                .add("description", description)
+                .add("capacity", capacity)
+                .toString();
     }
 }
