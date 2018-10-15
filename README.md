@@ -1,4 +1,5 @@
 # Hotel Cuzco
+[![Build Status](https://travis-ci.org/jcraftsman/hotel-cuzco.svg?branch=master)](https://travis-ci.org/jcraftsman/hotel-cuzco)
 
 "Hotel Cuzco" is a charming hotel in Cusco city, Peru.
 It has been successful in the last years, so the administration decided to build a simple booking system and get rid of the excel sheet they were maintaining for reservations.
