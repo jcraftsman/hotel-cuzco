@@ -64,8 +64,3 @@ public class ReservationPeriod {
 
 }
 
-class InvalidReservationPeriodException extends RuntimeException {
-}
-
-class OneNightReservationIsNotAllowedException extends InvalidReservationPeriodException {
-}

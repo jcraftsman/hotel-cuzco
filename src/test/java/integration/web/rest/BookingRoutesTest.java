@@ -103,4 +103,63 @@ class BookingRoutesTest {
                 .contentType(JSON)
                 .body("", hasKey("id"));
     }
+
+    @Test
+    void make_a_reservation_with_invalid_reservation_period() {
+        given()
+                .contentType(ContentType.JSON)
+                .body(Json.object().
+                        add(CHECK_IN_PARAM, JAN_02_19).
+                        add(CHECK_OUT_PARAM, JAN_01_19).
+                        add(NUMBER_OF_GUESTS_PARAM, FIVE_GUESTS).
+                        add(ROOM_NUMBER_PARAM, ROOM_FOR_FIVE).toString())
+        .when()
+                .post("/reservation")
+        .then()
+                .statusCode(400)
+                .contentType(JSON)
+                .body("message", is("check-in date should be before the check-out date."));
+    }
+
+    @Test
+    void make_a_reservation_for_less_than_one_night() {
+        given()
+                .contentType(ContentType.JSON)
+                .body(Json.object().
+                        add(CHECK_IN_PARAM, JAN_01_19).
+                        add(CHECK_OUT_PARAM, JAN_01_19).
+                        add(NUMBER_OF_GUESTS_PARAM, FIVE_GUESTS).
+                        add(ROOM_NUMBER_PARAM, ROOM_FOR_FIVE).toString())
+        .when()
+                .post("/reservation")
+        .then()
+                .statusCode(400)
+                .contentType(JSON)
+                .body("message", is("Cannot checkout the same day. the reservation period should be at least for one night."));
+    }
+
+    @Test
+    void make_a_reservation_for_an_unavailable_room() {
+        given()
+                .contentType(ContentType.JSON)
+                .body(Json.object().
+                        add(CHECK_IN_PARAM, JAN_01_19).
+                        add(CHECK_OUT_PARAM, JAN_02_19).
+                        add(NUMBER_OF_GUESTS_PARAM, FIVE_GUESTS).
+                        add(ROOM_NUMBER_PARAM, ROOM_FOR_FIVE).toString())
+                .post("/reservation");
+        given()
+                .contentType(ContentType.JSON)
+                .body(Json.object().
+                        add(CHECK_IN_PARAM, JAN_01_19).
+                        add(CHECK_OUT_PARAM, JAN_02_19).
+                        add(NUMBER_OF_GUESTS_PARAM, FIVE_GUESTS).
+                        add(ROOM_NUMBER_PARAM, ROOM_FOR_FIVE).toString())
+        .when()
+                .post("/reservation")
+        .then()
+                .statusCode(403)
+                .contentType(JSON)
+                .body("message", is("Requested room is unavailable during the reservation period."));
+    }
 }
