@@ -1,4 +1,6 @@
-package hotel.cuzco.middleware;
+package hotel.cuzco.middleware.commands.fixtures;
+
+import hotel.cuzco.middleware.commands.CommandHandler;
 
 public class OrderFlowersDeliveryCommandHandler implements CommandHandler<String, OrderFlowersDeliveryCommand> {
     @Override

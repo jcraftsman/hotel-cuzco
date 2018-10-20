@@ -1,5 +1,6 @@
-package hotel.cuzco.middleware;
+package hotel.cuzco.middleware.commands.fixtures;
 
+import hotel.cuzco.middleware.commands.Command;
 import lombok.Data;
 
 @Data

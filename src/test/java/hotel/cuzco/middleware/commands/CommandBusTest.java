@@ -1,5 +1,9 @@
-package hotel.cuzco.middleware;
+package hotel.cuzco.middleware.commands;
 
+import hotel.cuzco.middleware.commands.fixtures.OrderFlowersDeliveryCommand;
+import hotel.cuzco.middleware.commands.fixtures.OrderFlowersDeliveryCommandHandler;
+import hotel.cuzco.middleware.commands.fixtures.ScheduleCheckoutReminderCommand;
+import hotel.cuzco.middleware.commands.fixtures.ScheduleCheckoutReminderCommandHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +26,7 @@ class CommandBusTest {
     }
 
     @Test
-    void it_should_should_dispatch_to_OrderFlowersDeliveryCommandHandler() {
+    void it_should_dispatch_to_OrderFlowersDeliveryCommandHandler() {
         // Given
         var orderCantutaDeliveryCommand = new OrderFlowersDeliveryCommand(12, "Cantuta");
 

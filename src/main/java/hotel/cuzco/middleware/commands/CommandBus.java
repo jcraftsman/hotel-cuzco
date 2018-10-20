@@ -1,4 +1,4 @@
-package hotel.cuzco.middleware;
+package hotel.cuzco.middleware.commands;
 
 import java.util.List;
 import java.util.Map;

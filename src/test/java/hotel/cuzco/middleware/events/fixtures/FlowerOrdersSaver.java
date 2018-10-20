@@ -1,4 +1,6 @@
-package hotel.cuzco.middleware.events;
+package hotel.cuzco.middleware.events.fixtures;
+
+import hotel.cuzco.middleware.events.EventHandler;
 
 public class FlowerOrdersSaver implements EventHandler<FlowersDeliveryOrdered> {
     private final FlowerOrdersRepository flowerOrdersRepository;

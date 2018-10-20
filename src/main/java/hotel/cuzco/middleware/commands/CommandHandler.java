@@ -1,4 +1,4 @@
-package hotel.cuzco.middleware;
+package hotel.cuzco.middleware.commands;
 
 public interface CommandHandler<R, C extends Command> {
 

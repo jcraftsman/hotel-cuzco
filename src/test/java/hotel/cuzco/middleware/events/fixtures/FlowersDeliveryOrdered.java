@@ -1,5 +1,6 @@
-package hotel.cuzco.middleware.events;
+package hotel.cuzco.middleware.events.fixtures;
 
+import hotel.cuzco.middleware.events.Event;
 import lombok.Data;
 
 @Data
