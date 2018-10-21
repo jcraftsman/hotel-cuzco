@@ -31,11 +31,11 @@ public class Room {
         return hasEnoughCapacity(numberOfGuests) && hasNoConflictingReservation(checkInDate, checkOutDate);
     }
 
-    public ReservationMade makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
+    public ReservationId makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
         checkAvailability(checkInDate, checkOutDate, numberOfGuests);
         var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests);
         this.activeReservations.add(reservation);
-        return new ReservationMade(reservation);
+        return reservation.id();
     }
 
     private boolean hasEnoughCapacity(int numberOfGuests) {
