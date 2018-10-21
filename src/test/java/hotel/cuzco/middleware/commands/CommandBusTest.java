@@ -4,6 +4,8 @@ import hotel.cuzco.middleware.commands.fixtures.OrderFlowersDeliveryCommand;
 import hotel.cuzco.middleware.commands.fixtures.OrderFlowersDeliveryCommandHandler;
 import hotel.cuzco.middleware.commands.fixtures.ScheduleCheckoutReminderCommand;
 import hotel.cuzco.middleware.commands.fixtures.ScheduleCheckoutReminderCommandHandler;
+import hotel.cuzco.middleware.events.fixtures.CheckoutReminderScheduled;
+import hotel.cuzco.middleware.events.fixtures.FlowersDeliveryOrdered;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +24,7 @@ class CommandBusTest {
         List<CommandHandler> commandHandlers = asList(
                 new OrderFlowersDeliveryCommandHandler(),
                 new ScheduleCheckoutReminderCommandHandler());
-        commandBus = new CommandBus(commandHandlers);
+        commandBus = new CommandDispatcher(commandHandlers);
     }
 
     @Test
@@ -34,7 +36,8 @@ class CommandBusTest {
         var dispatchedCommandResponse = commandBus.dispatch(orderCantutaDeliveryCommand);
 
         // Then
-        assertThat(dispatchedCommandResponse).isEqualTo("12 Cantuta flowers delivery ordered");
+        var flowersDeliveryOrderedEvent = new FlowersDeliveryOrdered("12 Cantuta flowers delivery ordered");
+        assertThat(dispatchedCommandResponse.getEvents()).containsExactly(flowersDeliveryOrderedEvent);
     }
 
     @Test
@@ -47,6 +50,7 @@ class CommandBusTest {
         var dispatchedCommandResponse = commandBus.dispatch(scheduleCheckoutReminderCommand);
 
         // Then
-        assertThat(dispatchedCommandResponse).isEqualTo("Checkout reminder scheduled for 2019-02-05");
+        var event = new CheckoutReminderScheduled("Checkout reminder scheduled for 2019-02-05");
+        assertThat(dispatchedCommandResponse.getEvents()).containsExactly(event);
     }
 }

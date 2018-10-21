@@ -8,7 +8,7 @@ public class FlowersDeliveryOrdered implements Event {
 
     private final String flowersDeliveryOrdered;
 
-    public FlowersDeliveryOrdered(String flowersDeliveryOrdered) {
-        this.flowersDeliveryOrdered = flowersDeliveryOrdered;
+    public FlowersDeliveryOrdered(String flowersDeliveryInformation) {
+        this.flowersDeliveryOrdered = flowersDeliveryInformation;
     }
 }
