@@ -1,8 +1,6 @@
 package hotel.cuzco.booking.command;
 
-import hotel.cuzco.booking.domain.ReservationId;
-import hotel.cuzco.booking.domain.RoomId;
-import hotel.cuzco.booking.domain.RoomRepository;
+import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.middleware.commands.CommandHandler;
 import hotel.cuzco.middleware.commands.CommandResponse;
 
@@ -20,7 +18,23 @@ public class MakeReservationCommandHandler implements CommandHandler<CommandResp
                 makeReservationCommand.getCheckoutOut(),
                 makeReservationCommand.getNumberOfGuests());
         this.roomRepository.add(room);
-        return CommandResponse.<ReservationId>builder().value(reservationMade.id()).build();
+
+        ReservationMade event = buildReservationMadeEvent(makeReservationCommand, reservationMade.id());
+        return CommandResponse.<ReservationId>builder()
+                .value(reservationMade.id())
+                .event(event)
+                .build();
+    }
+
+    private ReservationMade buildReservationMadeEvent(MakeReservationCommand makeReservationCommand, ReservationId reservationId) {
+        var mainContact = new MainContact(makeReservationCommand.getGuestName(), makeReservationCommand.getGuestEmail());
+        return ReservationMade.builder()
+                .reservationId(reservationId)
+                .checkIn(makeReservationCommand.getCheckIn())
+                .checkOut(makeReservationCommand.getCheckoutOut())
+                .numberOfGuests(makeReservationCommand.getNumberOfGuests())
+                .mainContact(mainContact)
+                .build();
     }
 
     @Override
