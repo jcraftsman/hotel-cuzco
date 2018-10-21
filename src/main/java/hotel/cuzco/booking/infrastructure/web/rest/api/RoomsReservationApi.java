@@ -3,11 +3,11 @@ package hotel.cuzco.booking.infrastructure.web.rest.api;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import hotel.cuzco.booking.command.CancelReservationCommand;
-import hotel.cuzco.booking.command.CancelReservationCommandHandler;
 import hotel.cuzco.booking.command.MakeReservationCommand;
-import hotel.cuzco.booking.command.MakeReservationCommandHandler;
-import hotel.cuzco.booking.domain.ReservationMade;
+import hotel.cuzco.booking.domain.ReservationId;
 import hotel.cuzco.booking.infrastructure.web.rest.json.ReservationMadeDto;
+import hotel.cuzco.middleware.commands.CommandDispatcher;
+import hotel.cuzco.middleware.commands.CommandResponse;
 import spark.Request;
 import spark.Response;
 
@@ -23,24 +23,22 @@ public class RoomsReservationApi {
     private static final String CHECK_OUT_PARAM_KEY = "check-out";
     private static final String NUMBER_OF_GUESTS_PARAM_KEY = "number-of-guests";
 
-    private final MakeReservationCommandHandler makeReservationCommandHandler;
-    private final CancelReservationCommandHandler cancelReservationCommandHandler;
+    private final CommandDispatcher commandDispatcher;
 
-    public RoomsReservationApi(MakeReservationCommandHandler makeReservationCommandHandler, CancelReservationCommandHandler cancelReservationCommandHandler) {
-        this.makeReservationCommandHandler = makeReservationCommandHandler;
-        this.cancelReservationCommandHandler = cancelReservationCommandHandler;
+    public RoomsReservationApi(CommandDispatcher commandDispatcher) {
+        this.commandDispatcher = commandDispatcher;
     }
 
     public ReservationMadeDto makeReservation(Request request, Response response) {
-        ReservationMade reservationMade = makeReservationCommandHandler.handle(commandFrom(request));
+        CommandResponse<ReservationId> commandResponse = commandDispatcher.dispatch(commandFrom(request));
         response.status(CREATED_201);
         response.type(APPLICATION_JSON.toString());
-        return new ReservationMadeDto(reservationMade);
+        return new ReservationMadeDto(commandResponse.getValue());
     }
 
     public String cancelReservation(Request request, Response response) {
         var reservationId = request.params("id");
-        cancelReservationCommandHandler.handle(CancelReservationCommand.of(reservationId));
+        commandDispatcher.dispatch(CancelReservationCommand.of(reservationId));
         response.status(NO_CONTENT_204);
         return "";
     }

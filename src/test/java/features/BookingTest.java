@@ -5,7 +5,6 @@ import hotel.cuzco.booking.command.CancelReservationCommandHandler;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.Hotel;
-import hotel.cuzco.booking.domain.ReservationMade;
 import hotel.cuzco.booking.domain.Room;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
@@ -74,8 +73,8 @@ class BookingTest {
         // Given
         var getAvailableRoomsQuery = new GetAvailableRoomsQuery(SEP_1ST_18, SEP_2ND_18, ONE_GUEST);
         var makeReservationCommand = new MakeReservationCommand(NUMBER_101, SEP_1ST_18, SEP_2ND_18, ONE_GUEST);
-        ReservationMade reservationMade = makeReservationCommandHandler.handle(makeReservationCommand);
-        var cancelReservationCommand = new CancelReservationCommand(reservationMade.id());
+        var reservationMade = makeReservationCommandHandler.handle(makeReservationCommand);
+        var cancelReservationCommand = new CancelReservationCommand(reservationMade.getValue());
 
         // When
         cancelReservationCommandHandler.handle(cancelReservationCommand);

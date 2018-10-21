@@ -1,12 +1,15 @@
 package hotel.cuzco.booking.infrastructure.web.rest.api;
 
 import com.eclipsesource.json.Json;
+import hotel.cuzco.booking.command.CancelReservationCommand;
 import hotel.cuzco.booking.command.CancelReservationCommandHandler;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
+import hotel.cuzco.booking.domain.ReservationId;
 import hotel.cuzco.booking.domain.ReservationMade;
-import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.web.rest.json.ReservationMadeDto;
+import hotel.cuzco.middleware.commands.CommandDispatcher;
+import hotel.cuzco.middleware.commands.CommandResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spark.Request;
@@ -14,6 +17,7 @@ import spark.Response;
 
 import java.time.LocalDate;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -37,7 +41,12 @@ class RoomsReservationApiTest {
     @BeforeEach
     void setUp() {
         makeReservationCommandHandler = mock(MakeReservationCommandHandler.class);
-        roomsReservationApi = new RoomsReservationApi(makeReservationCommandHandler, new CancelReservationCommandHandler(new ReservationInMemoryRepository()));
+        var cancelReservationCommandHandler = mock(CancelReservationCommandHandler.class);
+        var commandHandlers = asList(makeReservationCommandHandler, cancelReservationCommandHandler);
+        given(cancelReservationCommandHandler.listenTo()).willReturn(CancelReservationCommand.class);
+        given(makeReservationCommandHandler.listenTo()).willReturn(MakeReservationCommand.class);
+        var commandDispatcher = new CommandDispatcher(commandHandlers);
+        roomsReservationApi = new RoomsReservationApi(commandDispatcher);
         request = mock(Request.class);
         response = mock(Response.class);
     }
@@ -55,7 +64,7 @@ class RoomsReservationApiTest {
         var makeReservationCommand = new MakeReservationCommand(NUMBER_101, DEC_25_19, JAN_05_20, THREE_GUESTS);
         var reservationMade = ReservationMade.random();
         given(makeReservationCommandHandler.handle(makeReservationCommand))
-                .willReturn(reservationMade);
+                .willReturn(CommandResponse.<ReservationId>builder().value(reservationMade.id()).build());
 
         // When
         var actualReservationMade = roomsReservationApi.makeReservation(request, response);
@@ -63,6 +72,6 @@ class RoomsReservationApiTest {
         // Then
         then(response).should().status(201);
         then(response).should().type("application/json");
-        assertThat(actualReservationMade).isEqualTo(new ReservationMadeDto(reservationMade));
+        assertThat(actualReservationMade).isEqualTo(new ReservationMadeDto(reservationMade.id()));
     }
 }

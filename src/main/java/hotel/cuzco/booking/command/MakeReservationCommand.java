@@ -1,11 +1,12 @@
 package hotel.cuzco.booking.command;
 
+import hotel.cuzco.middleware.commands.Command;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class MakeReservationCommand {
+public class MakeReservationCommand implements Command {
 
     private final LocalDate checkIn;
     private final LocalDate checkoutOut;

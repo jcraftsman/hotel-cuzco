@@ -1,15 +1,15 @@
 package hotel.cuzco.booking.infrastructure.web.rest.json;
 
 import com.eclipsesource.json.Json;
-import hotel.cuzco.booking.domain.ReservationMade;
+import hotel.cuzco.booking.domain.ReservationId;
 import lombok.Data;
 
 @Data
 public class ReservationMadeDto {
     private String id;
 
-    public ReservationMadeDto(ReservationMade reservationMade) {
-        this.id = reservationMade.id().getId();
+    public ReservationMadeDto(ReservationId reservationId) {
+        this.id = reservationId.getId();
     }
 
     @Override

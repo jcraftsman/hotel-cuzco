@@ -8,7 +8,9 @@ import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.infrastructure.web.rest.api.RoomsAvailabilityApi;
 import hotel.cuzco.booking.infrastructure.web.rest.api.RoomsReservationApi;
 import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
+import hotel.cuzco.middleware.commands.CommandDispatcher;
 
+import static java.util.Arrays.asList;
 import static org.eclipse.jetty.http.MimeTypes.Type.APPLICATION_JSON;
 import static spark.Spark.*;
 
@@ -42,7 +44,8 @@ public class BookingRoutes {
         roomsAvailabilityApi = new RoomsAvailabilityApi(getAvailableRoomsQueryHandler);
         var makeReservationCommandHandler = new MakeReservationCommandHandler(this.roomRepository);
         var cancelReservationCommandHandler = new CancelReservationCommandHandler(reservationRepository);
-        roomsReservationApi = new RoomsReservationApi(makeReservationCommandHandler, cancelReservationCommandHandler);
+        var commandDispatcher = new CommandDispatcher(asList(makeReservationCommandHandler, cancelReservationCommandHandler));
+        roomsReservationApi = new RoomsReservationApi(commandDispatcher);
     }
 
     private void routeException(Class<? extends Exception> exceptionClass, int statusCode) {

@@ -1,10 +1,11 @@
 package hotel.cuzco.booking.command;
 
 import hotel.cuzco.booking.domain.ReservationId;
+import hotel.cuzco.middleware.commands.Command;
 import lombok.Data;
 
 @Data
-public class CancelReservationCommand {
+public class CancelReservationCommand implements Command {
     private final ReservationId reservationId;
 
     public CancelReservationCommand(ReservationId reservationId) {
