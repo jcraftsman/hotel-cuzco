@@ -1,7 +1,9 @@
 package hotel.cuzco.booking.domain;
 
+import java.util.Optional;
+
 public interface ReservationRepository {
-    Reservation get(ReservationId reservationId);
+    Optional<Reservation> get(ReservationId reservationId);
 
     void add(Reservation reservation);
 }

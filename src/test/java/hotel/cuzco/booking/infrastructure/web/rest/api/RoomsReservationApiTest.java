@@ -1,9 +1,11 @@
 package hotel.cuzco.booking.infrastructure.web.rest.api;
 
 import com.eclipsesource.json.Json;
+import hotel.cuzco.booking.command.CancelReservationCommandHandler;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.ReservationMade;
+import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.web.rest.json.ReservationMadeDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +37,7 @@ class RoomsReservationApiTest {
     @BeforeEach
     void setUp() {
         makeReservationCommandHandler = mock(MakeReservationCommandHandler.class);
-        roomsReservationApi = new RoomsReservationApi(makeReservationCommandHandler);
+        roomsReservationApi = new RoomsReservationApi(makeReservationCommandHandler, new CancelReservationCommandHandler(new ReservationInMemoryRepository()));
         request = mock(Request.class);
         response = mock(Response.class);
     }

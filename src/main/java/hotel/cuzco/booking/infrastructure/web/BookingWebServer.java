@@ -1,6 +1,8 @@
 package hotel.cuzco.booking.infrastructure.web;
 
+import hotel.cuzco.booking.domain.ReservationRepository;
 import hotel.cuzco.booking.domain.RoomRepository;
+import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.web.rest.BookingRoutes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +12,13 @@ import static spark.Spark.*;
 
 public class BookingWebServer {
     private final RoomRepository roomRepository;
+    private final ReservationRepository reservationRepository;
     private final Integer serverPort;
     private final Logger logger;
 
-    public BookingWebServer(RoomRepository roomRepository, Integer serverPort) {
+    public BookingWebServer(Integer serverPort, RoomRepository roomRepository, ReservationInMemoryRepository reservationRepository) {
         this.roomRepository = roomRepository;
+        this.reservationRepository = reservationRepository;
         this.serverPort = serverPort;
         logger = LoggerFactory.getLogger(this.getClass());
     }
@@ -35,7 +39,7 @@ public class BookingWebServer {
     }
 
     private void configureBookingRoutes() {
-        var bookingRoutes = new BookingRoutes(roomRepository);
+        var bookingRoutes = new BookingRoutes(roomRepository, reservationRepository);
         bookingRoutes.create();
     }
 

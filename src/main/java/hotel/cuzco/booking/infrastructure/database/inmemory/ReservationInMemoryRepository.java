@@ -6,6 +6,7 @@ import hotel.cuzco.booking.domain.ReservationRepository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ReservationInMemoryRepository implements ReservationRepository {
     private Map<ReservationId, Reservation> reservations;
@@ -15,8 +16,8 @@ public class ReservationInMemoryRepository implements ReservationRepository {
     }
 
     @Override
-    public Reservation get(ReservationId reservationId) {
-        return reservations.get(reservationId);
+    public Optional<Reservation> get(ReservationId reservationId) {
+        return Optional.ofNullable(reservations.get(reservationId));
     }
 
     @Override

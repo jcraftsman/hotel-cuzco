@@ -10,4 +10,8 @@ public class CancelReservationCommand {
     public CancelReservationCommand(ReservationId reservationId) {
         this.reservationId = reservationId;
     }
+
+    public static CancelReservationCommand of(String reservationId) {
+        return new CancelReservationCommand(new ReservationId(reservationId));
+    }
 }

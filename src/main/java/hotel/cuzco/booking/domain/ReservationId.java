@@ -11,4 +11,8 @@ public class ReservationId {
     public ReservationId() {
         this.id = UUID.randomUUID().toString();
     }
+
+    public ReservationId(String id) {
+        this.id = id;
+    }
 }

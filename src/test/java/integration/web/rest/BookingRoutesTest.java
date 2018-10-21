@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
 
@@ -39,7 +40,7 @@ class BookingRoutesTest {
     static void globalSetup() {
         var reservationRepository = new ReservationInMemoryRepository();
         roomRepository = new RoomInMemoryRepository(reservationRepository);
-        bookingWebServer = new BookingWebServer(roomRepository, SERVER_PORT);
+        bookingWebServer = new BookingWebServer(SERVER_PORT, roomRepository, reservationRepository);
         bookingWebServer.start();
         RestAssured.port = SERVER_PORT;
     }
@@ -161,5 +162,35 @@ class BookingRoutesTest {
                 .statusCode(403)
                 .contentType(JSON)
                 .body("message", is("Requested room is unavailable during the reservation period."));
+    }
+
+    @Test
+    void cancel_a_reservation() {
+        var reservationId = given()
+                                .contentType(ContentType.JSON)
+                                .body(Json.object().
+                                        add(CHECK_IN_PARAM, JAN_01_19).
+                                        add(CHECK_OUT_PARAM, JAN_02_19).
+                                        add(NUMBER_OF_GUESTS_PARAM, FIVE_GUESTS).
+                                        add(ROOM_NUMBER_PARAM, ROOM_FOR_FIVE).toString())
+                                .post("/reservation")
+                                .path("id");
+
+        when()
+                .delete("/reservation/"+reservationId)
+        .then()
+                .statusCode(204);
+
+    }
+
+    @Test
+    void cancel_an_unknown_reservation() {
+        var reservationId = "abd";
+
+        when()
+                .delete("/reservation/"+reservationId)
+        .then()
+                .statusCode(400);
+
     }
 }

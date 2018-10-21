@@ -1,9 +1,6 @@
 package hotel.cuzco.booking.command;
 
-import hotel.cuzco.booking.domain.ReservationCanceled;
-import hotel.cuzco.booking.domain.ReservationRepository;
-import hotel.cuzco.booking.domain.Room;
-import hotel.cuzco.booking.domain.RoomRepository;
+import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 class CancelReservationCommandHandlerTest {
 
@@ -45,6 +43,21 @@ class CancelReservationCommandHandlerTest {
 
         // Then
         assertThat(reservationCanceled).isEqualTo(new ReservationCanceled(reservationId));
-        assertThat(reservationRepository.get(reservationId).isCanceled()).isTrue();
+        assertThat(reservationRepository.get(reservationId).orElseThrow().isCanceled()).isTrue();
+    }
+
+    @Test
+    void it_should_an_unknown_reservation() {
+        // Given
+        var room = new Room(NUMBER_1, "", TWO_GUESTS);
+        roomRepository.add(room);
+        var reservationId = ReservationMade.random().id();
+        var cancelRandomReservationCommand = new CancelReservationCommand(reservationId);
+
+        // When
+        Throwable raisedException = catchThrowable(() -> cancelReservationCommandHandler.handle(cancelRandomReservationCommand));
+
+        // Then
+        assertThat(raisedException).isInstanceOf(InvalidCommandException.class);
     }
 }

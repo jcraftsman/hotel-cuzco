@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         var roomRepository = new RoomInMemoryRepository(new ReservationInMemoryRepository());
         roomRepository.addAll(Hotel.CUZCO().allRooms());
-        var bookingRestApiServer = new BookingWebServer(roomRepository, SERVER_PORT);
+        var bookingRestApiServer = new BookingWebServer(SERVER_PORT, roomRepository, new ReservationInMemoryRepository());
         bookingRestApiServer.start();
     }
 }
