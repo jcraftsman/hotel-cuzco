@@ -1,8 +1,11 @@
 package features;
 
+import hotel.cuzco.booking.command.CancelReservationCommand;
+import hotel.cuzco.booking.command.CancelReservationCommandHandler;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.Hotel;
+import hotel.cuzco.booking.domain.ReservationMade;
 import hotel.cuzco.booking.domain.Room;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
@@ -17,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class BookingTest {
 
-    private static final Iterable<Room> ALL_ROOMS_IN_CUZCO_HOTEL = Hotel.CUZCO().allRooms();
+    private static Iterable<Room> ALL_ROOMS_IN_CUZCO_HOTEL;
     private static final int NUMBER_OF_ROOMS_IN_CUZCO_HOTEL = 12;
     private static final int ONE_GUEST = 1;
     private static final String NUMBER_101 = "101";
@@ -26,13 +29,17 @@ class BookingTest {
 
     private MakeReservationCommandHandler makeReservationCommandHandler;
     private GetAvailableRoomsQueryHandler availableRoomsQueryHandler;
+    private CancelReservationCommandHandler cancelReservationCommandHandler;
 
     @BeforeEach
     void setUp() {
-        var roomRepository = new RoomInMemoryRepository(new ReservationInMemoryRepository());
+        ALL_ROOMS_IN_CUZCO_HOTEL = Hotel.CUZCO().allRooms();
+        var reservationRepository = new ReservationInMemoryRepository();
+        var roomRepository = new RoomInMemoryRepository(reservationRepository);
         roomRepository.addAll(ALL_ROOMS_IN_CUZCO_HOTEL);
         makeReservationCommandHandler = new MakeReservationCommandHandler(roomRepository);
         availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomRepository);
+        cancelReservationCommandHandler = new CancelReservationCommandHandler(reservationRepository);
     }
 
     @Test
@@ -60,5 +67,21 @@ class BookingTest {
         Iterable<Room> availableRooms = availableRoomsQueryHandler.handle(getAvailableRoomsQuery);
         int remainingAvailableRoomsAfterBookingOne = NUMBER_OF_ROOMS_IN_CUZCO_HOTEL - 1;
         assertThat(availableRooms).hasSize(remainingAvailableRoomsAfterBookingOne);
+    }
+
+    @Test
+    void it_returns_all_available_rooms_ignoring_canceled_reservations() {
+        // Given
+        var getAvailableRoomsQuery = new GetAvailableRoomsQuery(SEP_1ST_18, SEP_2ND_18, ONE_GUEST);
+        var makeReservationCommand = new MakeReservationCommand(NUMBER_101, SEP_1ST_18, SEP_2ND_18, ONE_GUEST);
+        ReservationMade reservationMade = makeReservationCommandHandler.handle(makeReservationCommand);
+        var cancelReservationCommand = new CancelReservationCommand(reservationMade.id());
+
+        // When
+        cancelReservationCommandHandler.handle(cancelReservationCommand);
+
+        // Then
+        Iterable<Room> availableRooms = availableRoomsQueryHandler.handle(getAvailableRoomsQuery);
+        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(ALL_ROOMS_IN_CUZCO_HOTEL);
     }
 }

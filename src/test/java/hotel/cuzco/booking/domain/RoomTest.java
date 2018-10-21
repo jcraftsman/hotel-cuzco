@@ -92,4 +92,17 @@ class RoomTest {
         assertThat(raisedException).isInstanceOf(UnavailableForReservationException.class);
     }
 
+    @Test
+    void it_is_available_when_room_has_a_conflicting_reservation_canceled() {
+        // Given
+        var reservationMade = singleRoom.makeReservation(DEC_25_18, JAN_02_19, ONE_GUEST);
+
+        // When
+        singleRoom.cancelReservation(reservationMade.id());
+
+        // Then
+        boolean isSingleRoomAvailable = singleRoom.isAvailableFor(ONE_GUEST, JAN_01_19, JAN_02_19);
+        assertThat(isSingleRoomAvailable).isTrue();
+    }
+
 }

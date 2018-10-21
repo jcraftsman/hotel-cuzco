@@ -26,7 +26,7 @@ public class RoomInMemoryRepository implements RoomRepository {
     @Override
     public void add(Room room) {
         rooms.put(room.id(), room);
-        room.getReservations().forEach(reservationRepository::add);
+        room.getActiveReservations().forEach(reservationRepository::add);
     }
 
     @Override

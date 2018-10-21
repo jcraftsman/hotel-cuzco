@@ -6,12 +6,14 @@ public class Reservation {
     private ReservationId reservationId;
     private ReservationPeriod reservationPeriod;
     private Integer numberOfGuests;
+    private boolean canceled;
 
     Reservation(Room room, ReservationPeriod reservationPeriod, int numberOfGuests) {
         this.numberOfGuests = numberOfGuests;
         this.reservationId = new ReservationId();
         this.room = room;
         this.reservationPeriod = reservationPeriod;
+        canceled = false;
     }
 
     public ReservationId id() {
@@ -32,5 +34,13 @@ public class Reservation {
 
     boolean conflictsWith(ReservationPeriod reservationPeriod) {
         return period().conflictsWith(reservationPeriod);
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    void cancel() {
+        canceled = true;
     }
 }

@@ -12,13 +12,15 @@ public class Room {
     private RoomId roomId;
     private String description;
     private int capacity;
-    private Collection<Reservation> reservations;
+    private Collection<Reservation> activeReservations;
+    private Collection<Reservation> canceledReservation;
 
     public Room(String number, String description, int capacity) {
         this.roomId = new RoomId(number);
         this.description = description;
         this.capacity = capacity;
-        this.reservations = new ArrayList<>();
+        this.activeReservations = new ArrayList<>();
+        this.canceledReservation = new ArrayList<>();
     }
 
     public RoomId id() {
@@ -32,7 +34,7 @@ public class Room {
     public ReservationMade makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
         checkAvailability(checkInDate, checkOutDate, numberOfGuests);
         var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests);
-        this.reservations.add(reservation);
+        this.activeReservations.add(reservation);
         return new ReservationMade(reservation);
     }
 
@@ -42,7 +44,7 @@ public class Room {
 
     private boolean hasNoConflictingReservation(LocalDate checkInDate, LocalDate checkOutDate) {
         var reservationPeriod = ReservationPeriod.from(checkInDate).to(checkOutDate);
-        return this.reservations.stream()
+        return this.activeReservations.stream()
                 .noneMatch(reservation -> reservation.conflictsWith(reservationPeriod));
     }
 
@@ -52,4 +54,15 @@ public class Room {
         }
     }
 
+    public void cancelReservation(ReservationId reservationId) {
+        var reservationToCancel = activeReservations.stream()
+                .filter(reservation -> reservation.id().equals(reservationId))
+                .findFirst();
+        if (reservationToCancel.isPresent()) {
+            Reservation reservation = reservationToCancel.get();
+            reservation.cancel();
+            this.activeReservations.remove(reservation);
+            this.canceledReservation.add(reservation);
+        }
+    }
 }
