@@ -17,14 +17,12 @@ import static spark.Spark.*;
 public class BookingRoutes {
 
     private final RoomRepository roomRepository;
-    private final ReservationRepository reservationRepository;
 
     private RoomsAvailabilityApi roomsAvailabilityApi;
     private RoomsReservationApi roomsReservationApi;
 
-    public BookingRoutes(RoomRepository roomRepository, ReservationRepository reservationRepository) {
+    public BookingRoutes(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
-        this.reservationRepository = reservationRepository;
     }
 
     public void create() {
@@ -43,7 +41,7 @@ public class BookingRoutes {
         var getAvailableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(this.roomRepository);
         roomsAvailabilityApi = new RoomsAvailabilityApi(getAvailableRoomsQueryHandler);
         var makeReservationCommandHandler = new MakeReservationCommandHandler(this.roomRepository);
-        var cancelReservationCommandHandler = new CancelReservationCommandHandler(reservationRepository);
+        var cancelReservationCommandHandler = new CancelReservationCommandHandler(roomRepository);
         var commandDispatcher = new CommandDispatcher(asList(makeReservationCommandHandler, cancelReservationCommandHandler));
         roomsReservationApi = new RoomsReservationApi(commandDispatcher);
     }

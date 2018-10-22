@@ -40,7 +40,7 @@ class BookingRoutesTest {
     static void globalSetup() {
         var reservationRepository = new ReservationInMemoryRepository();
         roomRepository = new RoomInMemoryRepository(reservationRepository);
-        bookingWebServer = new BookingWebServer(SERVER_PORT, roomRepository, reservationRepository);
+        bookingWebServer = new BookingWebServer(SERVER_PORT, roomRepository);
         bookingWebServer.start();
         RestAssured.port = SERVER_PORT;
     }

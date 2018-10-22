@@ -1,12 +1,10 @@
 package hotel.cuzco.booking.infrastructure.database.inmemory;
 
-import hotel.cuzco.booking.domain.ReservationRepository;
-import hotel.cuzco.booking.domain.Room;
-import hotel.cuzco.booking.domain.RoomId;
-import hotel.cuzco.booking.domain.RoomRepository;
+import hotel.cuzco.booking.domain.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class RoomInMemoryRepository implements RoomRepository {
 
@@ -32,6 +30,12 @@ public class RoomInMemoryRepository implements RoomRepository {
     @Override
     public Iterable<Room> all() {
         return rooms.values();
+    }
+
+    @Override
+    public Optional<Room> getByReservation(ReservationId reservationId) {
+        var reservation = reservationRepository.get(reservationId);
+        return reservation.map(Reservation::room);
     }
 
     public void addAll(Iterable<Room> allRooms) {

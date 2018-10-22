@@ -10,7 +10,7 @@ public class Main {
         var reservationRepository = new ReservationInMemoryRepository();
         var roomRepository = new RoomInMemoryRepository(reservationRepository);
         roomRepository.addAll(Hotel.CUZCO().allRooms());
-        var bookingRestApiServer = new BookingWebServer(SERVER_PORT, roomRepository, reservationRepository);
+        var bookingRestApiServer = new BookingWebServer(SERVER_PORT, roomRepository);
         bookingRestApiServer.start();
     }
 }

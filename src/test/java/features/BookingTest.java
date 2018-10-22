@@ -37,7 +37,7 @@ class BookingTest {
         var roomRepository = new RoomInMemoryRepository(reservationRepository);
         mailSender = mock(MailSender.class);
         roomRepository.addAll(ALL_ROOMS_IN_CUZCO_HOTEL);
-        this.commandBus = CommandBusFactory.build(reservationRepository, roomRepository, mailSender);
+        this.commandBus = CommandBusFactory.build(roomRepository, mailSender);
         availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomRepository);
     }
 

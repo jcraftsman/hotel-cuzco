@@ -26,7 +26,7 @@ class CancelReservationCommandHandlerTest {
     void setUp() {
         reservationRepository = new ReservationInMemoryRepository();
         roomRepository = new RoomInMemoryRepository(reservationRepository);
-        cancelReservationCommandHandler = new CancelReservationCommandHandler(reservationRepository);
+        cancelReservationCommandHandler = new CancelReservationCommandHandler(roomRepository);
     }
 
     @Test
