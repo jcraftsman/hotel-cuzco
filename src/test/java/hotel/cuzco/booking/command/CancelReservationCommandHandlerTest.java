@@ -1,9 +1,6 @@
 package hotel.cuzco.booking.command;
 
-import hotel.cuzco.booking.domain.ReservationMade;
-import hotel.cuzco.booking.domain.ReservationRepository;
-import hotel.cuzco.booking.domain.Room;
-import hotel.cuzco.booking.domain.RoomRepository;
+import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,11 +38,13 @@ class CancelReservationCommandHandlerTest {
         var cancelReservationCommand = new CancelReservationCommand(reservationId);
 
         // When
-        var reservationCanceled = cancelReservationCommandHandler.handle(cancelReservationCommand);
+        var commandResponse = cancelReservationCommandHandler.handle(cancelReservationCommand);
 
         // Then
-        assertThat(reservationCanceled.getValue()).isEqualTo(reservationId);
-        assertThat(reservationRepository.get(reservationId).orElseThrow().isCanceled()).isTrue();
+        var reservationCanceled = new ReservationCanceled(reservationId);
+        assertThat(commandResponse.getEvents()).containsExactly(reservationCanceled);
+        var reservationEntity = reservationRepository.get(reservationId).orElseThrow();
+        assertThat(reservationEntity.isCanceled()).isTrue();
     }
 
     @Test
