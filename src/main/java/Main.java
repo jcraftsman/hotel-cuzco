@@ -7,10 +7,15 @@ public class Main {
     private static final Integer SERVER_PORT = 9986;
 
     public static void main(String[] args) {
+        var roomRepository = setupCuzcoRoomsRepository();
+        var bookingRestApiServer = new BookingWebServer(SERVER_PORT, roomRepository);
+        bookingRestApiServer.start();
+    }
+
+    private static RoomInMemoryRepository setupCuzcoRoomsRepository() {
         var reservationRepository = new ReservationInMemoryRepository();
         var roomRepository = new RoomInMemoryRepository(reservationRepository);
         roomRepository.addAll(Hotel.CUZCO().allRooms());
-        var bookingRestApiServer = new BookingWebServer(SERVER_PORT, roomRepository);
-        bookingRestApiServer.start();
+        return roomRepository;
     }
 }
