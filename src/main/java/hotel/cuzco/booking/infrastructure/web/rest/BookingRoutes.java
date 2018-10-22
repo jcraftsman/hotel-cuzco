@@ -31,7 +31,7 @@ public class BookingRoutes {
         createAPIs();
         get("/rooms/available", roomsAvailabilityApi::getAvailableRooms);
         post("/reservation", "application/json", roomsReservationApi::makeReservation);
-        delete("/reservation/:id", "application/json", roomsReservationApi::cancelReservation);
+        delete("/reservation/:id", roomsReservationApi::cancelReservation);
 
         routeException(InvalidReservationPeriodException.class, 400);
         routeException(OneNightReservationIsNotAllowedException.class, 400);
