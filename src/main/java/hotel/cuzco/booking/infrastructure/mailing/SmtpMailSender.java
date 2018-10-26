@@ -14,24 +14,26 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 
-public class MailGunSender implements MailSender {
+public class SmtpMailSender implements MailSender {
 
     private static final String SMTPS_PROTOCOL = "smtps";
-    private static final String SMTP_HOST = "smtp.mailgun.com";
+    private static final String SMTP_ENV_VAR_NAME = "SMTP_HOST";
     private static final String SMTP_USER_ENV_VAR_NAME = "SMTP_USER";
     private static final String SMTP_PASSWORD_NEV_VAR_NAME = "SMTP_PASSWORD";
     private static final String SENDER_EMAIL_ENV_VAR_NAME = "SENDER_EMAIL";
 
+    private final String smtpHost;
     private final String smtpUser;
     private final String smtpPassword;
     private final String senderEmail;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MailGunSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmtpMailSender.class);
 
-    public MailGunSender(String smtpUser, String smtpPassword, String senderEmail) {
+    public SmtpMailSender(String smtpHost, String smtpUser, String smtpPassword, String senderEmail) {
         this.smtpUser = smtpUser;
         this.smtpPassword = smtpPassword;
         this.senderEmail = senderEmail;
+        this.smtpHost = smtpHost;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class MailGunSender implements MailSender {
             var message = buildMessage(email, subject, body, session);
 
             var smtpTransport = (SMTPTransport) session.getTransport(SMTPS_PROTOCOL);
-            smtpTransport.connect(SMTP_HOST, smtpUser, smtpPassword);
+            smtpTransport.connect(smtpHost, smtpUser, smtpPassword);
             smtpTransport.sendMessage(message, message.getAllRecipients());
 
             LOGGER.info("Mail sent to " +
@@ -67,12 +69,12 @@ public class MailGunSender implements MailSender {
 
     private Session createSmtpSession() {
         Properties props = System.getProperties();
-        props.put("mail.smtps.host", SMTP_HOST);
+        props.put("mail.smtps.host", smtpHost);
         props.put("mail.smtps.auth", "true");
         return Session.getInstance(props, null);
     }
 
-    public static MailGunSender build() {
+    public static SmtpMailSender build() {
         Map<String, String> environmentVariables = System.getenv();
         if (!(environmentVariables.containsKey(SMTP_USER_ENV_VAR_NAME) &&
                 environmentVariables.containsKey(SMTP_PASSWORD_NEV_VAR_NAME) &&
@@ -81,9 +83,11 @@ public class MailGunSender implements MailSender {
                     "You should set the following environment variables:" +
                     " \"SMTP_USER\" \"SMTP_PASSWORD\" \"SENDER_EMAIL\"");
         }
-        return new MailGunSender(
+        return new SmtpMailSender(
+                environmentVariables.get(SMTP_ENV_VAR_NAME),
                 environmentVariables.get(SMTP_USER_ENV_VAR_NAME),
                 environmentVariables.get(SMTP_PASSWORD_NEV_VAR_NAME),
-                environmentVariables.get(SENDER_EMAIL_ENV_VAR_NAME));
+                environmentVariables.get(SENDER_EMAIL_ENV_VAR_NAME)
+        );
     }
 }
