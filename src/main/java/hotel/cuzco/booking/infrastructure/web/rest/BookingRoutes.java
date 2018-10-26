@@ -1,28 +1,27 @@
 package hotel.cuzco.booking.infrastructure.web.rest;
 
 import com.eclipsesource.json.Json;
-import hotel.cuzco.booking.command.CancelReservationCommandHandler;
+import hotel.cuzco.booking.command.CommandBusFactory;
 import hotel.cuzco.booking.command.InvalidCommandException;
-import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.*;
 import hotel.cuzco.booking.infrastructure.web.rest.api.RoomsAvailabilityApi;
 import hotel.cuzco.booking.infrastructure.web.rest.api.RoomsReservationApi;
 import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
-import hotel.cuzco.middleware.commands.CommandDispatcher;
 
-import static java.util.Arrays.asList;
 import static org.eclipse.jetty.http.MimeTypes.Type.APPLICATION_JSON;
 import static spark.Spark.*;
 
 public class BookingRoutes {
 
     private final RoomRepository roomRepository;
+    private final MailSender mailSender;
 
     private RoomsAvailabilityApi roomsAvailabilityApi;
     private RoomsReservationApi roomsReservationApi;
 
-    public BookingRoutes(RoomRepository roomRepository) {
+    public BookingRoutes(RoomRepository roomRepository, MailSender mailSender) {
         this.roomRepository = roomRepository;
+        this.mailSender = mailSender;
     }
 
     public void create() {
@@ -40,9 +39,7 @@ public class BookingRoutes {
     private void createAPIs() {
         var getAvailableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(this.roomRepository);
         roomsAvailabilityApi = new RoomsAvailabilityApi(getAvailableRoomsQueryHandler);
-        var makeReservationCommandHandler = new MakeReservationCommandHandler(this.roomRepository);
-        var cancelReservationCommandHandler = new CancelReservationCommandHandler(roomRepository);
-        var commandDispatcher = new CommandDispatcher(asList(makeReservationCommandHandler, cancelReservationCommandHandler));
+        var commandDispatcher = CommandBusFactory.build(roomRepository, mailSender);
         roomsReservationApi = new RoomsReservationApi(commandDispatcher);
     }
 

@@ -31,6 +31,8 @@ class RoomsReservationApiTest {
     private static final LocalDate DEC_25_19 = LocalDate.parse(DEC_25_19_STRING);
     private static final LocalDate JAN_05_20 = LocalDate.parse(JAN_05_20_STRING);
     private static final String NUMBER_101 = "101";
+    public static final String GUEST_NAME = "Mr Quintino ALAZHAR";
+    public static final String GUEST_EMAIL = "quintino.alazhar@mail.com";
 
     private RoomsReservationApi roomsReservationApi;
 
@@ -59,9 +61,11 @@ class RoomsReservationApiTest {
                 .add("check-in", DEC_25_19_STRING)
                 .add("check-out", JAN_05_20_STRING)
                 .add("number-of-guests", THREE_GUESTS)
+                .add("guest-name", GUEST_NAME)
+                .add("guest-email", GUEST_EMAIL)
                 .toString());
 
-        var makeReservationCommand = new MakeReservationCommand(NUMBER_101, DEC_25_19, JAN_05_20, THREE_GUESTS);
+        var makeReservationCommand = new MakeReservationCommand(NUMBER_101, DEC_25_19, JAN_05_20, THREE_GUESTS, GUEST_EMAIL, GUEST_NAME);
         var reservationMade = ReservationMade.random();
         given(makeReservationCommandHandler.handle(makeReservationCommand))
                 .willReturn(CommandResponse.<ReservationId>builder().value(reservationMade.id()).build());

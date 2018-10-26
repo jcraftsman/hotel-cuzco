@@ -6,7 +6,7 @@ import hotel.cuzco.booking.command.CancelReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.domain.ReservationId;
 import hotel.cuzco.booking.infrastructure.web.rest.json.ReservationMadeDto;
-import hotel.cuzco.middleware.commands.CommandDispatcher;
+import hotel.cuzco.middleware.commands.CommandBus;
 import hotel.cuzco.middleware.commands.CommandResponse;
 import spark.Request;
 import spark.Response;
@@ -23,9 +23,9 @@ public class RoomsReservationApi {
     private static final String CHECK_OUT_PARAM_KEY = "check-out";
     private static final String NUMBER_OF_GUESTS_PARAM_KEY = "number-of-guests";
 
-    private final CommandDispatcher commandDispatcher;
+    private final CommandBus commandDispatcher;
 
-    public RoomsReservationApi(CommandDispatcher commandDispatcher) {
+    public RoomsReservationApi(CommandBus commandDispatcher) {
         this.commandDispatcher = commandDispatcher;
     }
 
@@ -49,7 +49,9 @@ public class RoomsReservationApi {
                 json.getString(ROOM_NUMBER_PARAM_KEY, ""),
                 parseLocalDate(json, CHECK_IN_PARAM_KEY),
                 parseLocalDate(json, CHECK_OUT_PARAM_KEY),
-                json.getInt(NUMBER_OF_GUESTS_PARAM_KEY, -1)
+                json.getInt(NUMBER_OF_GUESTS_PARAM_KEY, -1),
+                json.getString("guest-email", ""),
+                json.getString("guest-name", "")
         );
     }
 

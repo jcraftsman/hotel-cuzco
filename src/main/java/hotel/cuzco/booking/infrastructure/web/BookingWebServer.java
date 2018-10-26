@@ -1,5 +1,6 @@
 package hotel.cuzco.booking.infrastructure.web;
 
+import hotel.cuzco.booking.domain.MailSender;
 import hotel.cuzco.booking.domain.RoomRepository;
 import hotel.cuzco.booking.infrastructure.web.rest.BookingRoutes;
 import org.slf4j.Logger;
@@ -12,10 +13,12 @@ public class BookingWebServer {
     private final RoomRepository roomRepository;
     private final Integer serverPort;
     private final Logger logger;
+    private final MailSender mailSender;
 
-    public BookingWebServer(Integer serverPort, RoomRepository roomRepository) {
+    public BookingWebServer(Integer serverPort, RoomRepository roomRepository, MailSender mailSender) {
         this.roomRepository = roomRepository;
         this.serverPort = serverPort;
+        this.mailSender = mailSender;
         logger = LoggerFactory.getLogger(this.getClass());
     }
 
@@ -35,7 +38,7 @@ public class BookingWebServer {
     }
 
     private void configureBookingRoutes() {
-        var bookingRoutes = new BookingRoutes(roomRepository);
+        var bookingRoutes = new BookingRoutes(roomRepository, mailSender);
         bookingRoutes.create();
     }
 
@@ -45,9 +48,7 @@ public class BookingWebServer {
 
     private void configureErrorsLogging() {
         configurePotentialFailureOnStart();
-        exception(Exception.class, (exception, request, response) -> {
-            logger.error("Something went wrong", exception);
-        });
+        exception(Exception.class, (exception, request, response) -> logger.error("Something went wrong", exception));
     }
 
     private void configurePotentialFailureOnStart() {

@@ -10,10 +10,10 @@ import java.time.LocalDate;
 @Builder
 public class MakeReservationCommand implements Command {
 
+    private final String roomNumber;
     private final LocalDate checkIn;
     private final LocalDate checkoutOut;
     private final int numberOfGuests;
-    private final String roomNumber;
     private String guestEmail;
     private String guestName;
 
@@ -24,7 +24,7 @@ public class MakeReservationCommand implements Command {
         this.roomNumber = roomNumber;
     }
 
-    public MakeReservationCommand(LocalDate checkIn, LocalDate checkoutOut, int numberOfGuests, String roomNumber, String guestEmail, String guestName) {
+    public MakeReservationCommand(String roomNumber, LocalDate checkIn, LocalDate checkoutOut, int numberOfGuests, String guestEmail, String guestName) {
         this.checkIn = checkIn;
         this.checkoutOut = checkoutOut;
         this.numberOfGuests = numberOfGuests;

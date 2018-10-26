@@ -38,6 +38,18 @@ public class Room {
         return reservation.id();
     }
 
+    public void cancelReservation(ReservationId reservationId) {
+        var reservationToCancel = activeReservations.stream()
+                .filter(reservation -> reservation.id().equals(reservationId))
+                .findFirst();
+        if (reservationToCancel.isPresent()) {
+            Reservation reservation = reservationToCancel.get();
+            reservation.cancel();
+            this.activeReservations.remove(reservation);
+            this.canceledReservation.add(reservation);
+        }
+    }
+
     private boolean hasEnoughCapacity(int numberOfGuests) {
         return getCapacity() >= numberOfGuests;
     }
@@ -51,18 +63,6 @@ public class Room {
     private void checkAvailability(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
         if (!isAvailableFor(numberOfGuests, checkInDate, checkOutDate)) {
             throw new UnavailableForReservationException();
-        }
-    }
-
-    public void cancelReservation(ReservationId reservationId) {
-        var reservationToCancel = activeReservations.stream()
-                .filter(reservation -> reservation.id().equals(reservationId))
-                .findFirst();
-        if (reservationToCancel.isPresent()) {
-            Reservation reservation = reservationToCancel.get();
-            reservation.cancel();
-            this.activeReservations.remove(reservation);
-            this.canceledReservation.add(reservation);
         }
     }
 }

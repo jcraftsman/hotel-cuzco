@@ -5,6 +5,7 @@ import hotel.cuzco.booking.domain.Hotel;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.web.BookingWebServer;
+import integration.fixtures.FakeMailSender;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.AfterAll;
@@ -40,7 +41,7 @@ class BookingRoutesTest {
     static void globalSetup() {
         var reservationRepository = new ReservationInMemoryRepository();
         roomRepository = new RoomInMemoryRepository(reservationRepository);
-        bookingWebServer = new BookingWebServer(SERVER_PORT, roomRepository);
+        bookingWebServer = new BookingWebServer(SERVER_PORT, roomRepository, new FakeMailSender());
         bookingWebServer.start();
         RestAssured.port = SERVER_PORT;
     }
