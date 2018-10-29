@@ -103,11 +103,11 @@ class BookingTest {
         then(mailSender).should().send(
                 "awesome.guest@mail.com",
                 "Welcome to Hotel Cuzco",
-                "Dear Ibrahim Connor, \n" +
+                "Dear Ibrahim Connor,\n\n" +
                         "Thank you very much for choosing Hotel Cuzco for your stay in Cusco city (from 2018-09-01 to 2018-09-02).\n" +
-                        "Your reservation number is " + handle.getValue() + " .\n" +
-                        "Hotel Cuzco staff wish you a wonderful stay in our hotel.\n" +
-                        "Best regards!\n" +
+                        "Your reservation number is " + handle.getValue().getId() + ".\n" +
+                        "Hotel Cuzco staff wish you a wonderful stay in our hotel.\n\n" +
+                        "Best regards,\n" +
                         "Jose\n" +
                         "Recepcion");
     }

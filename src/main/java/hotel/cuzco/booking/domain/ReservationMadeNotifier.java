@@ -21,13 +21,13 @@ public class ReservationMadeNotifier implements EventHandler<ReservationMade> {
         String checkIn = event.getCheckIn().toString();
         String checkOut = event.getCheckOut().toString();
         String fullName = event.getMainContact().getFullName();
-        ReservationId reservationId = event.getReservationId();
-        String mailTemplate = "Dear {0}, \n" +
+        String reservationId = event.getReservationId().getId();
+        String mailTemplate = "Dear {0},\n\n" +
                 "Thank you very much for choosing Hotel Cuzco for your stay in Cusco city " +
                 "(from {1} to {2}).\n" +
-                "Your reservation number is {3} .\n" +
-                "Hotel Cuzco staff wish you a wonderful stay in our hotel.\n" +
-                "Best regards!\n" +
+                "Your reservation number is {3}.\n" +
+                "Hotel Cuzco staff wish you a wonderful stay in our hotel.\n\n" +
+                "Best regards,\n" +
                 "Jose\n" +
                 "Recepcion";
         return MessageFormat.format(mailTemplate, fullName, checkIn, checkOut, reservationId);

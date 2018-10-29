@@ -42,11 +42,11 @@ class ReservationMadeNotifierTest {
         then(mailSender).should().send(
                 email,
                 "Welcome to Hotel Cuzco",
-                "Dear Valentina Xue, \n" +
+                "Dear Valentina Xue,\n\n" +
                         "Thank you very much for choosing Hotel Cuzco for your stay in Cusco city (from 2019-01-01 to 2019-01-02).\n" +
-                        "Your reservation number is " + reservationId + " .\n" +
-                        "Hotel Cuzco staff wish you a wonderful stay in our hotel.\n" +
-                        "Best regards!\n" +
+                        "Your reservation number is " + reservationId.getId() + ".\n" +
+                        "Hotel Cuzco staff wish you a wonderful stay in our hotel.\n\n" +
+                        "Best regards,\n" +
                         "Jose\n" +
                         "Recepcion");
     }
