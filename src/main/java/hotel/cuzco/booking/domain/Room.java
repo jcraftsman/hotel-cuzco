@@ -1,5 +1,6 @@
 package hotel.cuzco.booking.domain;
 
+import hotel.cuzco.booking.command.CancelReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.middleware.commands.CommandResponse;
 import lombok.Getter;
@@ -43,16 +44,17 @@ public class Room {
                 .build();
     }
 
-    public void cancelReservation(ReservationId reservationId) {
+    public CommandResponse<Void> cancelReservation(CancelReservationCommand cancelReservationCommand) {
         var reservationToCancel = activeReservations.stream()
-                .filter(reservation -> reservation.id().equals(reservationId))
-                .findFirst();
-        if (reservationToCancel.isPresent()) {
-            Reservation reservation = reservationToCancel.get();
-            reservation.cancel();
-            this.activeReservations.remove(reservation);
-            this.canceledReservation.add(reservation);
-        }
+                .filter(reservation -> reservation.id().equals(cancelReservationCommand.getReservationId()))
+                .findFirst()
+                .orElseThrow(UnknownReservationException::new);
+        reservationToCancel.cancel();
+        this.activeReservations.remove(reservationToCancel);
+        this.canceledReservation.add(reservationToCancel);
+        return CommandResponse.<Void>builder()
+                .event(new ReservationCanceled(reservationToCancel))
+                .build();
     }
 
     private boolean hasEnoughCapacity(int numberOfGuests) {

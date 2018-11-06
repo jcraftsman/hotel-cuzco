@@ -14,9 +14,7 @@ public class CancelReservationCommandHandler implements CommandHandler<CommandRe
     public CommandResponse<Void> handle(CancelReservationCommand cancelReservationCommand) {
         ReservationId reservationId = cancelReservationCommand.getReservationId();
         Room room = roomRepository.getByReservation(reservationId).orElseThrow(InvalidCommandException::new);
-        room.cancelReservation(reservationId);
-        ReservationCanceled reservationCanceled = new ReservationCanceled(reservationId);
-        return CommandResponse.<Void>builder().event(reservationCanceled).build();
+        return room.cancelReservation(cancelReservationCommand);
     }
 
     @Override

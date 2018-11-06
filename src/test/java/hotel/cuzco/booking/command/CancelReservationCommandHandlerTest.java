@@ -17,6 +17,8 @@ class CancelReservationCommandHandlerTest {
     private static final LocalDate OCT_20_19 = LocalDate.parse("2019-10-20");
     private static final String NUMBER_1 = "N1";
     private static final int TWO_GUESTS = 2;
+    private static final String GUEST_NAME = "Chuck Norris";
+    private static final String GUEST_MAIL = "chuck.norris@mail.com";
     private CancelReservationCommandHandler cancelReservationCommandHandler;
 
     private ReservationRepository reservationRepository;
@@ -33,8 +35,8 @@ class CancelReservationCommandHandlerTest {
     void it_should_cancel_an_existing_reservation() {
         // Given
         var room = new Room(NUMBER_1, "", TWO_GUESTS);
-        var makeReservationCommand = new MakeReservationCommand(NUMBER_1, OCT_15_19, OCT_20_19, TWO_GUESTS);
-        var reservationId = room.makeReservation(makeReservationCommand).getValue();
+        var command = new MakeReservationCommand(NUMBER_1, OCT_15_19, OCT_20_19, TWO_GUESTS, GUEST_NAME, GUEST_MAIL);
+        var reservationId = room.makeReservation(command).getValue();
         roomRepository.add(room);
         var cancelReservationCommand = new CancelReservationCommand(reservationId);
 
@@ -42,8 +44,10 @@ class CancelReservationCommandHandlerTest {
         var commandResponse = cancelReservationCommandHandler.handle(cancelReservationCommand);
 
         // Then
-        var reservationCanceled = new ReservationCanceled(reservationId);
-        assertThat(commandResponse.getEvents()).containsExactly(reservationCanceled);
+        var expectedReservationCanceledEvent = new ReservationCanceled(
+                reservationId, OCT_15_19, OCT_20_19, TWO_GUESTS, new MainContact(GUEST_NAME, GUEST_MAIL)
+        );
+        assertThat(commandResponse.getEvents()).containsExactly(expectedReservationCanceledEvent);
         var reservationEntity = reservationRepository.get(reservationId).orElseThrow();
         assertThat(reservationEntity.isCanceled()).isTrue();
     }

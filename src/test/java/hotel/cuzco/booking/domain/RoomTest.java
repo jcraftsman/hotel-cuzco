@@ -1,6 +1,8 @@
 package hotel.cuzco.booking.domain;
 
+import hotel.cuzco.booking.command.CancelReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommand;
+import hotel.cuzco.middleware.commands.CommandResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +19,8 @@ class RoomTest {
     private static final int ONE_GUEST = 1;
     private static final int TWO_GUESTS = 2;
     private static final int THREE_GUESTS = 3;
-    private static final String GUEST_EMAIL = "mail";
-    private static final String GUEST_NAME = "name";
+    private static final String GUEST_NAME = "Chris Evert";
+    private static final String GUEST_EMAIL = "chris.evert@mail.com";
     private static final String NUMBER_101 = "101";
     private static final String NUMBER_102 = "102";
 
@@ -100,8 +102,7 @@ class RoomTest {
         // Then
         assertThat(commandResponse.getValue()).isNotNull();
         var expectedReservationMade = new ReservationMade(
-                commandResponse.getValue(), DEC_25_18, JAN_02_19, ONE_GUEST,
-                new MainContact(GUEST_NAME, GUEST_EMAIL)
+                commandResponse.getValue(), DEC_25_18, JAN_02_19, ONE_GUEST, new MainContact(GUEST_NAME, GUEST_EMAIL)
         );
         assertThat(commandResponse.getEvents()).containsExactly(expectedReservationMade);
     }
@@ -119,15 +120,45 @@ class RoomTest {
     @Test
     void it_is_available_when_room_has_a_conflicting_reservation_canceled() {
         // Given
-        var makeReservationCommand = new MakeReservationCommand(null, DEC_25_18, JAN_02_19, ONE_GUEST);
+        var makeReservationCommand = new MakeReservationCommand(NUMBER_101, DEC_25_18, JAN_02_19, ONE_GUEST);
         var reservationMade = singleRoom.makeReservation(makeReservationCommand);
+        var reservationId = reservationMade.getValue();
 
         // When
-        singleRoom.cancelReservation(reservationMade.getValue());
+        singleRoom.cancelReservation(new CancelReservationCommand(reservationId));
 
         // Then
         boolean isSingleRoomAvailable = singleRoom.isAvailableFor(ONE_GUEST, JAN_01_19, JAN_02_19);
         assertThat(isSingleRoomAvailable).isTrue();
+    }
+
+    @Test
+    void it_returns_a_canceled_reservation_event_when_a_reservation_is_canceled() {
+        // Given
+        var command = new MakeReservationCommand(NUMBER_101, DEC_25_18, JAN_02_19, ONE_GUEST, GUEST_NAME, GUEST_EMAIL);
+        var reservationMade = singleRoom.makeReservation(command);
+        var reservationId = reservationMade.getValue();
+
+        // When
+        CommandResponse<Void> response = singleRoom.cancelReservation(new CancelReservationCommand(reservationId));
+
+        // Then
+        var expectedReservationCanceledEvent = new ReservationCanceled(
+                reservationId, DEC_25_18, JAN_02_19, ONE_GUEST, new MainContact(GUEST_NAME, GUEST_EMAIL)
+        );
+        assertThat(response.getEvents()).containsExactly(expectedReservationCanceledEvent);
+    }
+
+    @Test
+    void it_raises_an_UnknownReservationException_when_reservationId_is_not_related_to_any_active_reservation() {
+        // Given
+        var cancelUnknownReservation = new CancelReservationCommand(new ReservationId());
+
+        // When
+        Throwable raisedException = catchThrowable(() -> singleRoom.cancelReservation(cancelUnknownReservation));
+
+        // Then
+        assertThat(raisedException).isInstanceOf(UnknownReservationException.class);
     }
 
 }
