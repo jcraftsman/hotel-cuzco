@@ -50,8 +50,8 @@ public class RoomsReservationApi {
                 parseLocalDate(json, CHECK_IN_PARAM_KEY),
                 parseLocalDate(json, CHECK_OUT_PARAM_KEY),
                 json.getInt(NUMBER_OF_GUESTS_PARAM_KEY, -1),
-                json.getString("guest-email", ""),
-                json.getString("guest-name", "")
+                json.getString("guest-name", ""),
+                json.getString("guest-email", "")
         );
     }
 

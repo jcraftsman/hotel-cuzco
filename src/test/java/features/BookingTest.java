@@ -97,7 +97,7 @@ class BookingTest {
                 .build();
 
         // When
-        CommandResponse<ReservationId> handle = commandBus.dispatch(makeReservationCommand);
+        CommandResponse<ReservationId> commandResponse = commandBus.dispatch(makeReservationCommand);
 
         // Then
         then(mailSender).should().send(
@@ -105,7 +105,7 @@ class BookingTest {
                 "Welcome to Hotel Cuzco",
                 "Dear Ibrahim Connor,\n\n" +
                         "Thank you very much for choosing Hotel Cuzco for your stay in Cusco city (from 2018-09-01 to 2018-09-02).\n" +
-                        "Your reservation number is " + handle.getValue().getId() + ".\n" +
+                        "Your reservation number is " + commandResponse.getValue().getId() + ".\n" +
                         "Hotel Cuzco staff wish you a wonderful stay in our hotel.\n\n" +
                         "Best regards,\n" +
                         "Jose\n" +

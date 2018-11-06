@@ -18,6 +18,10 @@ public class ReservationMade implements Event {
 
     public ReservationMade(Reservation reservation) {
         this.reservationId = reservation.id();
+        this.checkIn = reservation.period().getCheckInDate();
+        this.checkOut = reservation.period().getCheckOutDate();
+        this.numberOfGuests = reservation.numberOfGuests();
+        this.mainContact=reservation.mainContact();
     }
 
     public ReservationMade(ReservationId reservationId, LocalDate checkIn, LocalDate checkOut, int numberOfGuests, MainContact mainContact) {

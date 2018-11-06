@@ -1,5 +1,7 @@
 package hotel.cuzco.booking.domain;
 
+import hotel.cuzco.booking.command.MakeReservationCommand;
+import hotel.cuzco.middleware.commands.CommandResponse;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -31,11 +33,14 @@ public class Room {
         return hasEnoughCapacity(numberOfGuests) && hasNoConflictingReservation(checkInDate, checkOutDate);
     }
 
-    public ReservationId makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
-        checkAvailability(checkInDate, checkOutDate, numberOfGuests);
-        var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests);
+    public CommandResponse<ReservationId> makeReservation(MakeReservationCommand command) {
+        checkAvailability(command.getCheckIn(), command.getCheckoutOut(), command.getNumberOfGuests());
+        var reservation = Reservation.from(command, this);
         this.activeReservations.add(reservation);
-        return reservation.id();
+        return CommandResponse.<ReservationId>builder()
+                .value(reservation.id())
+                .event(new ReservationMade(reservation))
+                .build();
     }
 
     public void cancelReservation(ReservationId reservationId) {
@@ -48,6 +53,13 @@ public class Room {
             this.activeReservations.remove(reservation);
             this.canceledReservation.add(reservation);
         }
+    }
+
+    public ReservationId makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
+        checkAvailability(checkInDate, checkOutDate, numberOfGuests);
+        var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests, null);
+        this.activeReservations.add(reservation);
+        return reservation.id();
     }
 
     private boolean hasEnoughCapacity(int numberOfGuests) {
