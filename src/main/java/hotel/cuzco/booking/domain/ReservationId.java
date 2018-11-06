@@ -15,4 +15,8 @@ public class ReservationId {
     public ReservationId(String id) {
         this.id = id;
     }
+
+    public static ReservationId random() {
+        return new ReservationId();
+    }
 }

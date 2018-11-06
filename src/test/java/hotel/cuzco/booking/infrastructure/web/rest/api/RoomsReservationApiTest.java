@@ -6,7 +6,6 @@ import hotel.cuzco.booking.command.CancelReservationCommandHandler;
 import hotel.cuzco.booking.command.MakeReservationCommand;
 import hotel.cuzco.booking.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.ReservationId;
-import hotel.cuzco.booking.domain.ReservationMade;
 import hotel.cuzco.booking.infrastructure.web.rest.json.ReservationMadeDto;
 import hotel.cuzco.middleware.commands.CommandDispatcher;
 import hotel.cuzco.middleware.commands.CommandResponse;
@@ -66,9 +65,9 @@ class RoomsReservationApiTest {
                 .toString());
 
         var makeReservationCommand = new MakeReservationCommand(NUMBER_101, DEC_25_19, JAN_05_20, THREE_GUESTS, GUEST_NAME, GUEST_EMAIL);
-        var reservationMade = ReservationMade.random();
+        var reservationId = ReservationId.random();
         given(makeReservationCommandHandler.handle(makeReservationCommand))
-                .willReturn(CommandResponse.<ReservationId>builder().value(reservationMade.id()).build());
+                .willReturn(CommandResponse.<ReservationId>builder().value(reservationId).build());
 
         // When
         var actualReservationMade = roomsReservationApi.makeReservation(request, response);
@@ -76,6 +75,6 @@ class RoomsReservationApiTest {
         // Then
         then(response).should().status(201);
         then(response).should().type("application/json");
-        assertThat(actualReservationMade).isEqualTo(new ReservationMadeDto(reservationMade.id()));
+        assertThat(actualReservationMade).isEqualTo(new ReservationMadeDto(reservationId));
     }
 }

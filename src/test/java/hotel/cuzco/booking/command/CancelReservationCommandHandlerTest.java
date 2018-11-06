@@ -57,7 +57,7 @@ class CancelReservationCommandHandlerTest {
         // Given
         var room = new Room(NUMBER_1, "", TWO_GUESTS);
         roomRepository.add(room);
-        var reservationId = ReservationMade.random().id();
+        var reservationId = ReservationId.random();
         var cancelRandomReservationCommand = new CancelReservationCommand(reservationId);
 
         // When

@@ -152,7 +152,7 @@ class RoomTest {
     @Test
     void it_raises_an_UnknownReservationException_when_reservationId_is_not_related_to_any_active_reservation() {
         // Given
-        var cancelUnknownReservation = new CancelReservationCommand(new ReservationId());
+        var cancelUnknownReservation = new CancelReservationCommand(ReservationId.random());
 
         // When
         Throwable raisedException = catchThrowable(() -> singleRoom.cancelReservation(cancelUnknownReservation));
