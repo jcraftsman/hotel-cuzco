@@ -55,13 +55,6 @@ public class Room {
         }
     }
 
-    public ReservationId makeReservation(LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests) {
-        checkAvailability(checkInDate, checkOutDate, numberOfGuests);
-        var reservation = new Reservation(this, ReservationPeriod.from(checkInDate).to(checkOutDate), numberOfGuests, null);
-        this.activeReservations.add(reservation);
-        return reservation.id();
-    }
-
     private boolean hasEnoughCapacity(int numberOfGuests) {
         return getCapacity() >= numberOfGuests;
     }

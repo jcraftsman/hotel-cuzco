@@ -11,7 +11,7 @@ public class Reservation {
     private boolean canceled;
     private MainContact mainContact;
 
-    Reservation(Room room, ReservationPeriod reservationPeriod, int numberOfGuests, MainContact mainContact) {
+    private Reservation(Room room, ReservationPeriod reservationPeriod, int numberOfGuests, MainContact mainContact) {
         this.numberOfGuests = numberOfGuests;
         this.mainContact = mainContact;
         this.reservationId = new ReservationId();

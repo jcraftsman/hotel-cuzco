@@ -77,18 +77,6 @@ class RoomTest {
     }
 
     @Test
-    void it_is_unavailable_for_one_guest_stay_when_single_room_has_a_conflicting_reservation_deprecated() {
-        // Given
-        singleRoom.makeReservation(DEC_25_18, JAN_02_19, ONE_GUEST);
-
-        // When
-        boolean isSingleRoomAvailableForOneGuest = singleRoom.isAvailableFor(ONE_GUEST, JAN_01_19, JAN_02_19);
-
-        // Then
-        assertThat(isSingleRoomAvailableForOneGuest).isFalse();
-    }
-
-    @Test
     void it_is_unavailable_for_one_guest_stay_when_single_room_has_a_conflicting_reservation() {
         // Given
         var makeReservationCommand = new MakeReservationCommand(NUMBER_101, DEC_25_18, JAN_02_19, ONE_GUEST);
@@ -121,23 +109,11 @@ class RoomTest {
     @Test
     void it_cannot_make_reservation_when_not_available() {
         // When
-        Throwable raisedException = catchThrowable(() -> singleRoom.makeReservation(DEC_25_18, JAN_02_19, TWO_GUESTS));
+        var command = new MakeReservationCommand(NUMBER_101, DEC_25_18, JAN_02_19, TWO_GUESTS);
+        Throwable raisedException = catchThrowable(() -> singleRoom.makeReservation(command));
 
         // Then
         assertThat(raisedException).isInstanceOf(UnavailableForReservationException.class);
-    }
-
-    @Test
-    void it_is_available_when_room_has_a_conflicting_reservation_canceled_deprecated() {
-        // Given
-        var reservationId = singleRoom.makeReservation(DEC_25_18, JAN_02_19, ONE_GUEST);
-
-        // When
-        singleRoom.cancelReservation(reservationId);
-
-        // Then
-        boolean isSingleRoomAvailable = singleRoom.isAvailableFor(ONE_GUEST, JAN_01_19, JAN_02_19);
-        assertThat(isSingleRoomAvailable).isTrue();
     }
 
     @Test

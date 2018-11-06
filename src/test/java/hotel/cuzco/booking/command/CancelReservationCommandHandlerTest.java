@@ -33,7 +33,8 @@ class CancelReservationCommandHandlerTest {
     void it_should_cancel_an_existing_reservation() {
         // Given
         var room = new Room(NUMBER_1, "", TWO_GUESTS);
-        var reservationId = room.makeReservation(OCT_15_19, OCT_20_19, TWO_GUESTS);
+        var makeReservationCommand = new MakeReservationCommand(NUMBER_1, OCT_15_19, OCT_20_19, TWO_GUESTS);
+        var reservationId = room.makeReservation(makeReservationCommand).getValue();
         roomRepository.add(room);
         var cancelReservationCommand = new CancelReservationCommand(reservationId);
 
