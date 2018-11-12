@@ -7,7 +7,7 @@ import hotel.cuzco.booking.infrastructure.mailing.SmtpMailSender;
 import hotel.cuzco.booking.infrastructure.web.BookingWebServer;
 
 public class Application {
-    private static final Integer SERVER_PORT = 9986;
+    private static final Integer SERVER_PORT = Integer.parseInt(System.getenv("PORT"));
 
     public static void main(String[] args) {
         var roomRepository = setupCuzcoRoomsRepository();
