@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.franzbecker.gradle-lombok' version '1.14'
+    id 'application'
 }
 
 lombok {
@@ -45,4 +46,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+mainClassName = "hotel.cuzco.Application"
+
+task stage {
+    dependsOn installDist
 }

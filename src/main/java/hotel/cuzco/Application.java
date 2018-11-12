@@ -1,10 +1,12 @@
+package hotel.cuzco;
+
 import hotel.cuzco.booking.domain.Hotel;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.mailing.SmtpMailSender;
 import hotel.cuzco.booking.infrastructure.web.BookingWebServer;
 
-public class Main {
+public class Application {
     private static final Integer SERVER_PORT = 9986;
 
     public static void main(String[] args) {
