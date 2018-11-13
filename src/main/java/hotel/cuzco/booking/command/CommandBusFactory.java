@@ -6,6 +6,7 @@ import hotel.cuzco.booking.domain.RoomRepository;
 import hotel.cuzco.middleware.commands.CommandBusMiddleware;
 import hotel.cuzco.middleware.commands.CommandDispatcher;
 import hotel.cuzco.middleware.commands.EventDispatcherBusMiddleware;
+import hotel.cuzco.middleware.commands.LoggerMiddleware;
 import hotel.cuzco.middleware.events.EventBus;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public class CommandBusFactory {
                 new MakeReservationCommandHandler(roomRepository),
                 new CancelReservationCommandHandler(roomRepository));
         var commandDispatcher = new CommandDispatcher(commandHandlers);
+        var loggerCommandBusMiddleware = LoggerMiddleware.create(commandDispatcher);
         var eventBus = new EventBus(List.of(new ReservationMadeNotifier(mailSender)));
-        return new EventDispatcherBusMiddleware(commandDispatcher, eventBus);
+        return new EventDispatcherBusMiddleware(loggerCommandBusMiddleware, eventBus);
     }
 }
