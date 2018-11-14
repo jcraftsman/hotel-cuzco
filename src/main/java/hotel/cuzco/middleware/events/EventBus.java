@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class EventBus {
 
-    private Map<Class, ? extends List<? extends EventHandler>> eventHandlers;
+    private final Map<Class, ? extends List<? extends EventHandler>> eventHandlers;
 
     public EventBus(List<? extends EventHandler> eventHandlers) {
         this.eventHandlers = eventHandlers.stream()

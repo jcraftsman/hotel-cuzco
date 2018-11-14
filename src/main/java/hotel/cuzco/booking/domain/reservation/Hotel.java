@@ -5,8 +5,8 @@ import java.util.List;
 public class Hotel {
     static final String CUZCO_HOTEL_ID = "CUZCO";
 
-    private Iterable<Room> rooms;
-    private String hotelId;
+    private final Iterable<Room> rooms;
+    private final String hotelId;
 
 
     private Hotel(String hotelId, Iterable<Room> rooms) {

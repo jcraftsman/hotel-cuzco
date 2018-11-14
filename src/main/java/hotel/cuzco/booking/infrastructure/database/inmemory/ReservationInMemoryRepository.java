@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ReservationInMemoryRepository implements ReservationRepository {
-    private Map<ReservationId, Reservation> reservations;
+    private final Map<ReservationId, Reservation> reservations;
 
     public ReservationInMemoryRepository() {
         reservations = new HashMap<>();

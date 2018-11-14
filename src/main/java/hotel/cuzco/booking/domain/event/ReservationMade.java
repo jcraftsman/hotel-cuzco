@@ -34,8 +34,4 @@ public class ReservationMade implements Event {
         this.mainContact = mainContact;
     }
 
-    public ReservationId id() {
-        return reservationId;
-    }
-
 }

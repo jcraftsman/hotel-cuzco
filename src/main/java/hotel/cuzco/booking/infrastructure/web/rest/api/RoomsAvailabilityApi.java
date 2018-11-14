@@ -19,7 +19,7 @@ public class RoomsAvailabilityApi {
     private static final String CHECK_OUT_PARAM_KEY = "check-out";
     private static final String NUMBER_OF_GUESTS_PARAM_KEY = "number-of-guests";
 
-    private GetAvailableRoomsQueryHandler getAvailableRoomsQueryHandler;
+    private final GetAvailableRoomsQueryHandler getAvailableRoomsQueryHandler;
 
     public RoomsAvailabilityApi(GetAvailableRoomsQueryHandler getAvailableRoomsQueryHandler) {
         this.getAvailableRoomsQueryHandler = getAvailableRoomsQueryHandler;

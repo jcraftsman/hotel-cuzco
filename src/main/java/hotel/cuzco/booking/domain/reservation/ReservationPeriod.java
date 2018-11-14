@@ -42,7 +42,7 @@ public class ReservationPeriod {
 
     public static class ReservationPeriodBuilder {
 
-        private LocalDate checkInDate;
+        private final LocalDate checkInDate;
 
         ReservationPeriodBuilder(LocalDate checkInDate) {
             this.checkInDate = checkInDate;

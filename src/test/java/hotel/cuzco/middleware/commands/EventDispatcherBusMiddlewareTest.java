@@ -22,7 +22,6 @@ class EventDispatcherBusMiddlewareTest {
 
     private EventDispatcherBusMiddleware eventDispatcherBusMiddleware;
 
-    private EventBus eventBus;
     private FlowerOrdersRepository flowerOrdersRepository;
     private StatsRepository statsRepository;
 
@@ -36,7 +35,7 @@ class EventDispatcherBusMiddlewareTest {
         statsRepository = mock(StatsRepository.class);
         var flowerOrdersSaver = new FlowerOrdersSaver(flowerOrdersRepository);
         var flowersDeliveryOrdersStatsUpdater = new FlowersDeliveryOrdersStatsUpdater(statsRepository);
-        eventBus = new EventBus(asList(flowerOrdersSaver, flowersDeliveryOrdersStatsUpdater));
+        var eventBus = new EventBus(asList(flowerOrdersSaver, flowersDeliveryOrdersStatsUpdater));
         eventDispatcherBusMiddleware = new EventDispatcherBusMiddleware(commandDispatcher, eventBus);
     }
 
