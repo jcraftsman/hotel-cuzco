@@ -1,13 +1,18 @@
 package features;
 
-import hotel.cuzco.booking.command.*;
-import hotel.cuzco.booking.domain.*;
+import hotel.cuzco.booking.domain.command.CancelReservationCommand;
+import hotel.cuzco.booking.domain.command.MakeReservationCommand;
+import hotel.cuzco.booking.domain.notification.MailSender;
+import hotel.cuzco.booking.domain.reservation.Hotel;
+import hotel.cuzco.booking.domain.reservation.ReservationId;
+import hotel.cuzco.booking.domain.reservation.Room;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
-import hotel.cuzco.booking.query.GetAvailableRoomsQuery;
-import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
-import hotel.cuzco.middleware.commands.CommandBusMiddleware;
-import hotel.cuzco.middleware.commands.CommandResponse;
+import hotel.cuzco.booking.usecase.command.CommandBusFactory;
+import hotel.cuzco.booking.usecase.query.GetAvailableRoomsQuery;
+import hotel.cuzco.booking.usecase.query.GetAvailableRoomsQueryHandler;
+import common.ddd.patterns.CommandBus;
+import common.ddd.patterns.CommandResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +32,7 @@ class BookingTest {
     private static final LocalDate SEP_2ND_18 = LocalDate.parse("2018-09-02");
 
     private GetAvailableRoomsQueryHandler availableRoomsQueryHandler;
-    private CommandBusMiddleware commandBus;
+    private CommandBus commandBus;
     private MailSender mailSender;
 
     @BeforeEach

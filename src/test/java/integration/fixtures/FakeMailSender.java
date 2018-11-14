@@ -1,6 +1,6 @@
 package integration.fixtures;
 
-import hotel.cuzco.booking.domain.MailSender;
+import hotel.cuzco.booking.domain.notification.MailSender;
 
 public class FakeMailSender implements MailSender {
     @Override

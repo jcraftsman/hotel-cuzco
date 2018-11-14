@@ -1,6 +1,6 @@
 package hotel.cuzco.middleware.commands;
 
-import hotel.cuzco.middleware.events.Event;
+import common.ddd.patterns.*;
 import hotel.cuzco.middleware.events.EventBus;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package hotel.cuzco.middleware.events.fixtures;
 
-import hotel.cuzco.middleware.events.Event;
+import common.ddd.patterns.Event;
 
 public class EventsStore {
     public void save(Event event) {

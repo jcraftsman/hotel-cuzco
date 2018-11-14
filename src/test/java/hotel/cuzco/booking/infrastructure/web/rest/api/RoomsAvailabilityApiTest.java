@@ -1,9 +1,9 @@
 package hotel.cuzco.booking.infrastructure.web.rest.api;
 
-import hotel.cuzco.booking.domain.Room;
+import hotel.cuzco.booking.domain.reservation.Room;
 import hotel.cuzco.booking.infrastructure.web.rest.json.RoomDto;
-import hotel.cuzco.booking.query.GetAvailableRoomsQuery;
-import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
+import hotel.cuzco.booking.usecase.query.GetAvailableRoomsQuery;
+import hotel.cuzco.booking.usecase.query.GetAvailableRoomsQueryHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spark.Request;

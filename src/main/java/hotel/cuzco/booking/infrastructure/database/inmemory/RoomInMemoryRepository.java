@@ -1,6 +1,6 @@
 package hotel.cuzco.booking.infrastructure.database.inmemory;
 
-import hotel.cuzco.booking.domain.*;
+import hotel.cuzco.booking.domain.reservation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class RoomInMemoryRepository implements RoomRepository {
     }
 
     @Override
-    public void add(Room room) {
+    public void save(Room room) {
         rooms.put(room.id(), room);
         room.getActiveReservations().forEach(reservationRepository::add);
     }
@@ -39,7 +39,7 @@ public class RoomInMemoryRepository implements RoomRepository {
     }
 
     public void addAll(Iterable<Room> allRooms) {
-        allRooms.forEach(this::add);
+        allRooms.forEach(this::save);
     }
 
     public void deleteAll() {

@@ -1,7 +1,7 @@
 package integration.web.rest;
 
 import com.eclipsesource.json.Json;
-import hotel.cuzco.booking.domain.Hotel;
+import hotel.cuzco.booking.domain.reservation.Hotel;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.web.BookingWebServer;

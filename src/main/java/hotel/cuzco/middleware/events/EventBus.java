@@ -1,5 +1,8 @@
 package hotel.cuzco.middleware.events;
 
+import common.ddd.patterns.Event;
+import common.ddd.patterns.EventHandler;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

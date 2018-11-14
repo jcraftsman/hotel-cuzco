@@ -1,7 +1,7 @@
 package hotel.cuzco.middleware.commands.fixtures;
 
-import hotel.cuzco.middleware.commands.CommandHandler;
-import hotel.cuzco.middleware.commands.CommandResponse;
+import common.ddd.patterns.CommandHandler;
+import common.ddd.patterns.CommandResponse;
 import hotel.cuzco.middleware.events.fixtures.CheckoutReminderScheduled;
 
 import java.util.UUID;

@@ -1,5 +1,10 @@
 package hotel.cuzco.middleware.commands;
 
+import common.ddd.patterns.Command;
+import common.ddd.patterns.CommandBus;
+import common.ddd.patterns.CommandHandler;
+import common.ddd.patterns.CommandResponse;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

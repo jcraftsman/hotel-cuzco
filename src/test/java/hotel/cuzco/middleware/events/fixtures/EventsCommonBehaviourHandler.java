@@ -1,7 +1,7 @@
 package hotel.cuzco.middleware.events.fixtures;
 
-import hotel.cuzco.middleware.events.Event;
-import hotel.cuzco.middleware.events.EventHandler;
+import common.ddd.patterns.Event;
+import common.ddd.patterns.EventHandler;
 
 public class EventsCommonBehaviourHandler implements EventHandler<Event> {
     private final EventsStore eventsStore;

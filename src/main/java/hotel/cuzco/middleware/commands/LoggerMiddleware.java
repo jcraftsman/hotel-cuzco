@@ -1,5 +1,9 @@
 package hotel.cuzco.middleware.commands;
 
+import common.ddd.patterns.Command;
+import common.ddd.patterns.CommandBus;
+import common.ddd.patterns.CommandBusMiddleware;
+import common.ddd.patterns.CommandResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +20,10 @@ public class LoggerMiddleware implements CommandBusMiddleware {
         this.logger = logger;
     }
 
+    public static LoggerMiddleware create(CommandBus nextCommandBus) {
+        return new LoggerMiddleware(nextCommandBus, LoggerFactory.getLogger(LoggerMiddleware.class));
+    }
+
     @Override
     public <R extends CommandResponse, C extends Command> R dispatch(C command) {
         var beforeDispatching = LocalDateTime.now();
@@ -23,10 +31,6 @@ public class LoggerMiddleware implements CommandBusMiddleware {
         var commandHandlingDuration = Duration.between(LocalDateTime.now(), beforeDispatching);
         logger.info(durationLogMessage(command, commandHandlingDuration));
         return dispatchedCommandResponse;
-    }
-
-    public static LoggerMiddleware create(CommandBus nextCommandBus) {
-        return new LoggerMiddleware(nextCommandBus, LoggerFactory.getLogger(LoggerMiddleware.class));
     }
 
     private <C extends Command> String durationLogMessage(C command, Duration commandHandlingDuration) {

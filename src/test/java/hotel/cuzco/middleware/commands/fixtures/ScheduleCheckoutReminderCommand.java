@@ -1,6 +1,6 @@
 package hotel.cuzco.middleware.commands.fixtures;
 
-import hotel.cuzco.middleware.commands.Command;
+import common.ddd.patterns.Command;
 import lombok.Data;
 
 import java.time.LocalDate;

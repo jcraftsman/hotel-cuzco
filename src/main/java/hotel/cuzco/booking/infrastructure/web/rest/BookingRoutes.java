@@ -1,12 +1,16 @@
 package hotel.cuzco.booking.infrastructure.web.rest;
 
 import com.eclipsesource.json.Json;
-import hotel.cuzco.booking.command.CommandBusFactory;
-import hotel.cuzco.booking.command.InvalidCommandException;
-import hotel.cuzco.booking.domain.*;
+import hotel.cuzco.booking.domain.exceptions.InvalidReservationPeriodException;
+import hotel.cuzco.booking.domain.exceptions.OneNightReservationIsNotAllowedException;
+import hotel.cuzco.booking.domain.exceptions.UnavailableForReservationException;
+import hotel.cuzco.booking.domain.notification.MailSender;
+import hotel.cuzco.booking.domain.reservation.RoomRepository;
 import hotel.cuzco.booking.infrastructure.web.rest.api.RoomsAvailabilityApi;
 import hotel.cuzco.booking.infrastructure.web.rest.api.RoomsReservationApi;
-import hotel.cuzco.booking.query.GetAvailableRoomsQueryHandler;
+import hotel.cuzco.booking.usecase.command.CommandBusFactory;
+import hotel.cuzco.booking.usecase.command.InvalidCommandException;
+import hotel.cuzco.booking.usecase.query.GetAvailableRoomsQueryHandler;
 
 import static org.eclipse.jetty.http.MimeTypes.Type.APPLICATION_JSON;
 import static spark.Spark.*;

@@ -2,12 +2,12 @@ package hotel.cuzco.booking.infrastructure.web.rest.api;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
-import hotel.cuzco.booking.command.CancelReservationCommand;
-import hotel.cuzco.booking.command.MakeReservationCommand;
-import hotel.cuzco.booking.domain.ReservationId;
+import common.ddd.patterns.CommandBus;
+import common.ddd.patterns.CommandResponse;
+import hotel.cuzco.booking.domain.command.CancelReservationCommand;
+import hotel.cuzco.booking.domain.command.MakeReservationCommand;
+import hotel.cuzco.booking.domain.reservation.ReservationId;
 import hotel.cuzco.booking.infrastructure.web.rest.json.ReservationMadeDto;
-import hotel.cuzco.middleware.commands.CommandBus;
-import hotel.cuzco.middleware.commands.CommandResponse;
 import spark.Request;
 import spark.Response;
 

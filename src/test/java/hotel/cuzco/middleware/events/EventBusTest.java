@@ -1,5 +1,7 @@
 package hotel.cuzco.middleware.events;
 
+import common.ddd.patterns.Event;
+import common.ddd.patterns.EventHandler;
 import hotel.cuzco.middleware.events.fixtures.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

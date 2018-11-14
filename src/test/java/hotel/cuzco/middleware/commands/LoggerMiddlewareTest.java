@@ -1,11 +1,12 @@
 package hotel.cuzco.middleware.commands;
 
+import common.ddd.patterns.CommandBusMiddleware;
+import common.ddd.patterns.CommandResponse;
 import hotel.cuzco.middleware.commands.fixtures.OrderFlowersDeliveryCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -28,7 +29,7 @@ class LoggerMiddlewareTest {
         // Given
         var command = new OrderFlowersDeliveryCommand(4, "Orchidea");
         var loggerMiddleware = new LoggerMiddleware(nextCommandBus, logger);
-        var nextCommandBusCommandResponse = new CommandResponse("NEXT RESPONSE", emptyList());
+        var nextCommandBusCommandResponse = CommandResponse.builder().value("NEXT RESPONSE").build();
         given(nextCommandBus.dispatch(command)).willReturn(nextCommandBusCommandResponse);
 
         // When

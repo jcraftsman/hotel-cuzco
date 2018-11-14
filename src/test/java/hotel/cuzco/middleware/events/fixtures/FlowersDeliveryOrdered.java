@@ -1,6 +1,6 @@
 package hotel.cuzco.middleware.events.fixtures;
 
-import hotel.cuzco.middleware.events.Event;
+import common.ddd.patterns.Event;
 import lombok.Data;
 
 @Data

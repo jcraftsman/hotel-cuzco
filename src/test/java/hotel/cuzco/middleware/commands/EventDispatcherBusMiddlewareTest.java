@@ -1,5 +1,6 @@
 package hotel.cuzco.middleware.commands;
 
+import common.ddd.patterns.CommandHandler;
 import hotel.cuzco.middleware.commands.fixtures.OrderFlowersDeliveryCommand;
 import hotel.cuzco.middleware.commands.fixtures.OrderFlowersDeliveryCommandHandler;
 import hotel.cuzco.middleware.commands.fixtures.ScheduleCheckoutReminderCommand;

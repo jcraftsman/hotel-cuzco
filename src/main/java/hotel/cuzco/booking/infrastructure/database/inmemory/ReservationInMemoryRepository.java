@@ -1,8 +1,8 @@
 package hotel.cuzco.booking.infrastructure.database.inmemory;
 
-import hotel.cuzco.booking.domain.Reservation;
-import hotel.cuzco.booking.domain.ReservationId;
-import hotel.cuzco.booking.domain.ReservationRepository;
+import hotel.cuzco.booking.domain.reservation.Reservation;
+import hotel.cuzco.booking.domain.reservation.ReservationId;
+import hotel.cuzco.booking.domain.reservation.ReservationRepository;
 
 import java.util.HashMap;
 import java.util.Map;

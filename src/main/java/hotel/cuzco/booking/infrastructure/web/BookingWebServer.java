@@ -1,7 +1,7 @@
 package hotel.cuzco.booking.infrastructure.web;
 
-import hotel.cuzco.booking.domain.MailSender;
-import hotel.cuzco.booking.domain.RoomRepository;
+import hotel.cuzco.booking.domain.notification.MailSender;
+import hotel.cuzco.booking.domain.reservation.RoomRepository;
 import hotel.cuzco.booking.infrastructure.web.rest.BookingRoutes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

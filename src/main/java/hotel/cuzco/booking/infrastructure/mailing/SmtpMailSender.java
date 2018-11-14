@@ -1,7 +1,7 @@
 package hotel.cuzco.booking.infrastructure.mailing;
 
 import com.sun.mail.smtp.SMTPTransport;
-import hotel.cuzco.booking.domain.MailSender;
+import hotel.cuzco.booking.domain.notification.MailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,19 +21,34 @@ public class SmtpMailSender implements MailSender {
     private static final String SMTP_USER_ENV_VAR_NAME = "SMTP_USER";
     private static final String SMTP_PASSWORD_NEV_VAR_NAME = "SMTP_PASSWORD";
     private static final String SENDER_EMAIL_ENV_VAR_NAME = "SENDER_EMAIL";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmtpMailSender.class);
     private final String smtpHost;
     private final String smtpUser;
     private final String smtpPassword;
     private final String senderEmail;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SmtpMailSender.class);
-
-    public SmtpMailSender(String smtpHost, String smtpUser, String smtpPassword, String senderEmail) {
+    private SmtpMailSender(String smtpHost, String smtpUser, String smtpPassword, String senderEmail) {
         this.smtpUser = smtpUser;
         this.smtpPassword = smtpPassword;
         this.senderEmail = senderEmail;
         this.smtpHost = smtpHost;
+    }
+
+    public static SmtpMailSender build() {
+        Map<String, String> environmentVariables = System.getenv();
+        if (!(environmentVariables.containsKey(SMTP_USER_ENV_VAR_NAME) &&
+                environmentVariables.containsKey(SMTP_PASSWORD_NEV_VAR_NAME) &&
+                environmentVariables.containsKey(SENDER_EMAIL_ENV_VAR_NAME))) {
+            LOGGER.error("Missing environment variables for mailing service. " +
+                    "You should set the following environment variables:" +
+                    " \"SMTP_USER\" \"SMTP_PASSWORD\" \"SENDER_EMAIL\"");
+        }
+        return new SmtpMailSender(
+                environmentVariables.get(SMTP_ENV_VAR_NAME),
+                environmentVariables.get(SMTP_USER_ENV_VAR_NAME),
+                environmentVariables.get(SMTP_PASSWORD_NEV_VAR_NAME),
+                environmentVariables.get(SENDER_EMAIL_ENV_VAR_NAME)
+        );
     }
 
     @Override
@@ -72,22 +87,5 @@ public class SmtpMailSender implements MailSender {
         props.put("mail.smtps.host", smtpHost);
         props.put("mail.smtps.auth", "true");
         return Session.getInstance(props, null);
-    }
-
-    public static SmtpMailSender build() {
-        Map<String, String> environmentVariables = System.getenv();
-        if (!(environmentVariables.containsKey(SMTP_USER_ENV_VAR_NAME) &&
-                environmentVariables.containsKey(SMTP_PASSWORD_NEV_VAR_NAME) &&
-                environmentVariables.containsKey(SENDER_EMAIL_ENV_VAR_NAME))) {
-            LOGGER.error("Missing environment variables for mailing service. " +
-                    "You should set the following environment variables:" +
-                    " \"SMTP_USER\" \"SMTP_PASSWORD\" \"SENDER_EMAIL\"");
-        }
-        return new SmtpMailSender(
-                environmentVariables.get(SMTP_ENV_VAR_NAME),
-                environmentVariables.get(SMTP_USER_ENV_VAR_NAME),
-                environmentVariables.get(SMTP_PASSWORD_NEV_VAR_NAME),
-                environmentVariables.get(SENDER_EMAIL_ENV_VAR_NAME)
-        );
     }
 }

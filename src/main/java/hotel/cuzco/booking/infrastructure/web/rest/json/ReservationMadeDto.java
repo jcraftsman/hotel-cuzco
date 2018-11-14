@@ -1,7 +1,7 @@
 package hotel.cuzco.booking.infrastructure.web.rest.json;
 
 import com.eclipsesource.json.Json;
-import hotel.cuzco.booking.domain.ReservationId;
+import hotel.cuzco.booking.domain.reservation.ReservationId;
 import lombok.Data;
 
 @Data
