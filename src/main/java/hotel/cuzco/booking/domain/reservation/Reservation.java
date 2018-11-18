@@ -11,21 +11,13 @@ public class Reservation {
     private boolean canceled;
     private MainContact mainContact;
 
-    private Reservation(RoomId roomId, ReservationPeriod reservationPeriod, int numberOfGuests, MainContact mainContact) {
-        this.numberOfGuests = numberOfGuests;
-        this.mainContact = mainContact;
-        this.reservationId = new ReservationId();
-        this.roomId = roomId;
-        this.reservationPeriod = reservationPeriod;
-        canceled = false;
-    }
-
-    static Reservation from(MakeReservationCommand command, Room room) {
+    static Reservation from(MakeReservationCommand command) {
         var reservationPeriod = ReservationPeriod
                 .from(command.getCheckIn())
                 .to(command.getCheckoutOut());
         var mainContact = new MainContact(command.getGuestName(), command.getGuestEmail());
-        return new Reservation(room.id(), reservationPeriod, command.getNumberOfGuests(), mainContact);
+        var roomId = new RoomId(command.getRoomNumber());
+        return new Reservation(roomId, reservationPeriod, command.getNumberOfGuests(), mainContact);
     }
 
     public ReservationId id() {
@@ -58,5 +50,14 @@ public class Reservation {
 
     public MainContact mainContact() {
         return this.mainContact;
+    }
+
+    private Reservation(RoomId roomId, ReservationPeriod reservationPeriod, int numberOfGuests, MainContact mainContact) {
+        this.numberOfGuests = numberOfGuests;
+        this.mainContact = mainContact;
+        this.reservationId = new ReservationId();
+        this.roomId = roomId;
+        this.reservationPeriod = reservationPeriod;
+        canceled = false;
     }
 }

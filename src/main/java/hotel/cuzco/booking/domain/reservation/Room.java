@@ -40,7 +40,7 @@ public class Room {
 
     public CommandResponse<ReservationId> makeReservation(MakeReservationCommand command) {
         checkAvailability(command.getCheckIn(), command.getCheckoutOut(), command.getNumberOfGuests());
-        var reservation = Reservation.from(command, this);
+        var reservation = Reservation.from(command);
         this.activeReservations.add(reservation);
         return CommandResponse.<ReservationId>builder()
                 .value(reservation.id())
