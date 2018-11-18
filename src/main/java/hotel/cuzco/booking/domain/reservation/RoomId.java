@@ -16,4 +16,8 @@ public class RoomId {
         this.roomNumber = roomNumber;
     }
 
+    @Override
+    public String toString() {
+        return hotelId + "-" + roomNumber;
+    }
 }

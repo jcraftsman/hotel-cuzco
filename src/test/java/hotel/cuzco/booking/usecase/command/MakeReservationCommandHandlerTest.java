@@ -1,11 +1,8 @@
 package hotel.cuzco.booking.usecase.command;
 
-import hotel.cuzco.booking.domain.reservation.Room;
-import hotel.cuzco.booking.domain.reservation.RoomRepository;
 import hotel.cuzco.booking.domain.command.MakeReservationCommand;
 import hotel.cuzco.booking.domain.exceptions.UnavailableForReservationException;
-import hotel.cuzco.booking.domain.reservation.ReservationPeriod;
-import hotel.cuzco.booking.domain.reservation.ReservationRepository;
+import hotel.cuzco.booking.domain.reservation.*;
 import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +46,7 @@ class MakeReservationCommandHandlerTest {
         // Then
         var savedReservation = reservationRepository.get(reservationMade.getValue()).orElseThrow();
         assertThat(savedReservation.id()).isNotNull();
-        assertThat(savedReservation.room()).isEqualTo(room101);
+        assertThat(savedReservation.roomId()).isEqualTo(room101.id());
         assertThat(savedReservation.period()).isEqualTo(ReservationPeriod.from(SEP_1ST_18).to(SEP_2ND_18));
         assertThat(savedReservation.numberOfGuests()).isEqualTo(ONE_GUEST);
     }

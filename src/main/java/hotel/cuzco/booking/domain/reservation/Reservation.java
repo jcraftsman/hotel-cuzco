@@ -4,18 +4,18 @@ import hotel.cuzco.booking.domain.command.MakeReservationCommand;
 
 public class Reservation {
 
-    private Room room;
+    private RoomId roomId;
     private ReservationId reservationId;
     private ReservationPeriod reservationPeriod;
     private Integer numberOfGuests;
     private boolean canceled;
     private MainContact mainContact;
 
-    private Reservation(Room room, ReservationPeriod reservationPeriod, int numberOfGuests, MainContact mainContact) {
+    private Reservation(RoomId roomId, ReservationPeriod reservationPeriod, int numberOfGuests, MainContact mainContact) {
         this.numberOfGuests = numberOfGuests;
         this.mainContact = mainContact;
         this.reservationId = new ReservationId();
-        this.room = room;
+        this.roomId = roomId;
         this.reservationPeriod = reservationPeriod;
         canceled = false;
     }
@@ -25,15 +25,15 @@ public class Reservation {
                 .from(command.getCheckIn())
                 .to(command.getCheckoutOut());
         var mainContact = new MainContact(command.getGuestName(), command.getGuestEmail());
-        return new Reservation(room, reservationPeriod, command.getNumberOfGuests(), mainContact);
+        return new Reservation(room.id(), reservationPeriod, command.getNumberOfGuests(), mainContact);
     }
 
     public ReservationId id() {
         return reservationId;
     }
 
-    public Room room() {
-        return room;
+    public RoomId roomId() {
+        return roomId;
     }
 
     public ReservationPeriod period() {

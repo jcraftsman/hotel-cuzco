@@ -19,4 +19,9 @@ public class ReservationId {
     public static ReservationId random() {
         return new ReservationId();
     }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }

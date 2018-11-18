@@ -35,7 +35,7 @@ public class RoomInMemoryRepository implements RoomRepository {
     @Override
     public Optional<Room> getByReservation(ReservationId reservationId) {
         var reservation = reservationRepository.get(reservationId);
-        return reservation.map(Reservation::room);
+        return reservation.map((resa) -> rooms.get(resa.roomId()));
     }
 
     public void addAll(Iterable<Room> allRooms) {
