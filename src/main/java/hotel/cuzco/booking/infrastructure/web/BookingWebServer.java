@@ -10,6 +10,8 @@ import spark.Spark;
 import static spark.Spark.*;
 
 public class BookingWebServer {
+    private static final String SERVER_PORT_ENV_VARIABLE = "PORT";
+
     private final RoomRepository roomRepository;
     private final Integer serverPort;
     private final Logger logger;
@@ -20,6 +22,11 @@ public class BookingWebServer {
         this.serverPort = serverPort;
         this.mailSender = mailSender;
         logger = LoggerFactory.getLogger(this.getClass());
+    }
+
+    public static BookingWebServer create(RoomRepository roomRepository, MailSender mailSender) {
+        int serverPort = Integer.parseInt(System.getenv(SERVER_PORT_ENV_VARIABLE));
+        return new BookingWebServer(serverPort, roomRepository, mailSender);
     }
 
     public void start() {
