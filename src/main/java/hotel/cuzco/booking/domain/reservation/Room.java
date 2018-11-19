@@ -12,6 +12,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 public class Room {
@@ -28,6 +29,12 @@ public class Room {
         this.capacity = capacity;
         this.activeReservations = new ArrayList<>();
         this.canceledReservation = new ArrayList<>();
+    }
+
+    public static Room build(String roomNumber, String description, int capacity, List<Reservation> activeReservations) {
+        Room room = new Room(roomNumber, description, capacity);
+        room.activeReservations.addAll(activeReservations);
+        return room;
     }
 
     public RoomId id() {

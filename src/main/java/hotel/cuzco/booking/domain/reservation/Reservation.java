@@ -2,6 +2,8 @@ package hotel.cuzco.booking.domain.reservation;
 
 import hotel.cuzco.booking.domain.command.MakeReservationCommand;
 
+import java.time.LocalDate;
+
 public class Reservation {
 
     private RoomId roomId;
@@ -18,6 +20,21 @@ public class Reservation {
         var mainContact = new MainContact(command.getGuestName(), command.getGuestEmail());
         var roomId = new RoomId(command.getRoomNumber());
         return new Reservation(roomId, reservationPeriod, command.getNumberOfGuests(), mainContact);
+    }
+
+    public static Reservation deserialize(String serializedReservationId,
+                                          RoomId roomId,
+                                          LocalDate checkInDate,
+                                          LocalDate checkOutDate,
+                                          int numberOfGuests,
+                                          String mainContactFullName,
+                                          String mainContactEmail) {
+        ReservationPeriod reservationPeriod = ReservationPeriod.from(checkInDate).to(checkOutDate);
+        MainContact mainContact = new MainContact(mainContactFullName, mainContactEmail);
+        ReservationId reservationId = new ReservationId(serializedReservationId);
+        Reservation reservation = new Reservation(roomId, reservationPeriod, numberOfGuests, mainContact);
+        reservation.reservationId = reservationId;
+        return reservation;
     }
 
     public ReservationId id() {
