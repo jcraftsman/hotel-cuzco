@@ -58,3 +58,40 @@ Discounts can apply to:
 During his stay, a customer can ask for some services (laundry, extra meal, breakfast, tour... etc.) that will be added to his bill.
 
 It is not possible to list all the extras that is possible to charge. The system needs to be flexible about this.
+
+## Get started
+
+### start dependencies
+
+```bash
+./gradlew startInfra
+```
+
+### start the app
+
+```bash
+./gradlew run -Pdev
+```
+
+### stop dependencies
+
+```bash
+./gradlew stopInfra
+```
+
+### default environment properties in dev environment
+
+When you run the app with the project variable `dev` (`gradlew run -Pdev`), gradle will set up default values 
+for environment variables required by the app.
+Here are the default values:
+
+```bash
+export SENDER_EMAIL=booking.hotel.cuzco@gmail.com
+export MAIL_TRANSFER_PROTOCOL=smtp
+export SMTP_HOST=localhost
+export SMTP_PORT=2525
+export SMTP_USER=any
+export SMTP_PASSWORD=whatever
+export REDIS_URL=redis://localhost:6379
+export PORT=9986
+```

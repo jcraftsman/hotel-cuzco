@@ -55,3 +55,29 @@ mainClassName = "hotel.cuzco.Application"
 task stage {
     dependsOn installDist
 }
+
+// The run task added by the application plugin
+// is also of type JavaExec.
+tasks.withType(JavaExec) {
+    if (project.hasProperty("dev")) {
+         environment SENDER_EMAIL: 'booking.hotel.cuzco@gmail.com'
+         environment MAIL_TRANSFER_PROTOCOL: 'smtp'
+         environment SMTP_HOST: 'localhost'
+         environment SMTP_PORT: '2525'
+         environment SMTP_USER: 'any'
+         environment SMTP_PASSWORD: 'whatever'
+         environment REDIS_URL: 'redis://localhost:6379'
+         environment PORT: '9986'
+    }
+    // Assign all Java system properties from
+    // the command line to the JavaExec task.
+    systemProperties System.properties
+}
+
+task startInfra(type: Exec) {
+    commandLine 'docker-compose', 'up', '-d'
+}
+
+task stopInfra(type: Exec) {
+    commandLine 'docker-compose', 'down'
+}
