@@ -1,18 +1,17 @@
 package features;
 
+import common.ddd.patterns.CommandBus;
+import common.ddd.patterns.CommandResponse;
 import hotel.cuzco.booking.domain.command.CancelReservationCommand;
 import hotel.cuzco.booking.domain.command.MakeReservationCommand;
 import hotel.cuzco.booking.domain.notification.MailSender;
-import hotel.cuzco.booking.domain.reservation.Hotel;
 import hotel.cuzco.booking.domain.reservation.ReservationId;
 import hotel.cuzco.booking.domain.reservation.Room;
-import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
+import hotel.cuzco.booking.usecase.Bootstrap;
 import hotel.cuzco.booking.usecase.command.CommandBusFactory;
 import hotel.cuzco.booking.usecase.query.GetAvailableRoomsQuery;
 import hotel.cuzco.booking.usecase.query.GetAvailableRoomsQueryHandler;
-import common.ddd.patterns.CommandBus;
-import common.ddd.patterns.CommandResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,6 @@ import static org.mockito.Mockito.mock;
 
 class BookingTest {
 
-    private static Iterable<Room> ALL_ROOMS_IN_CUZCO_HOTEL;
     private static final int NUMBER_OF_ROOMS_IN_CUZCO_HOTEL = 12;
     private static final int ONE_GUEST = 1;
     private static final String NUMBER_101 = "101";
@@ -35,13 +33,14 @@ class BookingTest {
     private CommandBus commandBus;
     private MailSender mailSender;
 
+    private Iterable<Room> allRoomsInCuzcoHotel;
+
     @BeforeEach
     void setUp() {
-        ALL_ROOMS_IN_CUZCO_HOTEL = Hotel.CUZCO().allRooms();
-        var reservationRepository = new ReservationInMemoryRepository();
-        var roomRepository = new RoomInMemoryRepository(reservationRepository);
+        var roomRepository = RoomInMemoryRepository.build();
+        Bootstrap.setupCuzcoRooms(roomRepository);
+        allRoomsInCuzcoHotel = roomRepository.all();
         mailSender = mock(MailSender.class);
-        roomRepository.addAll(ALL_ROOMS_IN_CUZCO_HOTEL);
         this.commandBus = CommandBusFactory.build(roomRepository, mailSender);
         availableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomRepository);
     }
@@ -55,7 +54,7 @@ class BookingTest {
         Iterable<Room> availableRooms = availableRoomsQueryHandler.handle(getAvailableRoomsQuery);
 
         // Then
-        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(ALL_ROOMS_IN_CUZCO_HOTEL);
+        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(allRoomsInCuzcoHotel);
     }
 
     @Test
@@ -86,7 +85,7 @@ class BookingTest {
 
         // Then
         Iterable<Room> availableRooms = availableRoomsQueryHandler.handle(getAvailableRoomsQuery);
-        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(ALL_ROOMS_IN_CUZCO_HOTEL);
+        assertThat(availableRooms).containsExactlyInAnyOrderElementsOf(allRoomsInCuzcoHotel);
     }
 
     @Test

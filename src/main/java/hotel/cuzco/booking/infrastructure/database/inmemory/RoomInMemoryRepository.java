@@ -16,6 +16,11 @@ public class RoomInMemoryRepository implements RoomRepository {
         this.reservationRepository = reservationRepository;
     }
 
+    public static RoomRepository build() {
+        var reservationRepository = new ReservationInMemoryRepository();
+        return new RoomInMemoryRepository(reservationRepository);
+    }
+
     @Override
     public Room get(RoomId roomId) {
         return rooms.get(roomId);
