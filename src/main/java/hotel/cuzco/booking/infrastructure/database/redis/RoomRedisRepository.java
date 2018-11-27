@@ -61,10 +61,6 @@ public class RoomRedisRepository implements RoomRepository {
                 .map(roomId -> get(RoomId.parse(roomId)));
     }
 
-    public void addAll(Iterable<Room> allRooms) {
-        allRooms.forEach(this::save);
-    }
-
     private List<Reservation> getActiveReservations(RoomId roomId) {
         List<String> activeReservationIds = redisClient.lrange(keyOfRoomActiveReservations(roomId), 0, -1);
         return activeReservationIds.stream()

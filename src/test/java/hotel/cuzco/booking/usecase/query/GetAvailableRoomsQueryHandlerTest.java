@@ -2,7 +2,6 @@ package hotel.cuzco.booking.usecase.query;
 
 import hotel.cuzco.booking.domain.command.MakeReservationCommand;
 import hotel.cuzco.booking.domain.reservation.Room;
-import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,7 @@ class GetAvailableRoomsQueryHandlerTest {
         ROOM_FOR_4 = new Room(NUMBER_4, "a room for four guests", 4);
         var ALL_ROOMS = asList(SINGLE_ROOM, ROOM_FOR_2, ROOM_FOR_3, ROOM_FOR_4);
 
-        RoomInMemoryRepository roomInMemoryRepository = new RoomInMemoryRepository(new ReservationInMemoryRepository());
+        var roomInMemoryRepository = RoomInMemoryRepository.build();
         roomInMemoryRepository.addAll(ALL_ROOMS);
 
         getAvailableRoomsQueryHandler = new GetAvailableRoomsQueryHandler(roomInMemoryRepository);

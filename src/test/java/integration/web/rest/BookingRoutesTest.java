@@ -2,7 +2,6 @@ package integration.web.rest;
 
 import com.eclipsesource.json.Json;
 import hotel.cuzco.booking.domain.reservation.Hotel;
-import hotel.cuzco.booking.infrastructure.database.inmemory.ReservationInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.database.inmemory.RoomInMemoryRepository;
 import hotel.cuzco.booking.infrastructure.web.BookingWebServer;
 import integration.fixtures.FakeMailSender;
@@ -39,8 +38,7 @@ class BookingRoutesTest {
 
     @BeforeAll
     static void globalSetup() {
-        var reservationRepository = new ReservationInMemoryRepository();
-        roomRepository = new RoomInMemoryRepository(reservationRepository);
+        roomRepository = RoomInMemoryRepository.build();
         bookingWebServer = new BookingWebServer(SERVER_PORT, roomRepository, new FakeMailSender());
         bookingWebServer.start();
         RestAssured.port = SERVER_PORT;
@@ -181,7 +179,6 @@ class BookingRoutesTest {
                 .delete("/reservation/"+reservationId)
         .then()
                 .statusCode(204);
-
     }
 
     @Test
@@ -192,6 +189,5 @@ class BookingRoutesTest {
                 .delete("/reservation/"+reservationId)
         .then()
                 .statusCode(400);
-
     }
 }

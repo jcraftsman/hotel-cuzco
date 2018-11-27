@@ -16,7 +16,7 @@ public class RoomInMemoryRepository implements RoomRepository {
         this.reservationRepository = reservationRepository;
     }
 
-    public static RoomRepository build() {
+    public static RoomInMemoryRepository build() {
         var reservationRepository = new ReservationInMemoryRepository();
         return new RoomInMemoryRepository(reservationRepository);
     }
