@@ -33,7 +33,7 @@ public class SmtpMailSender implements MailSender {
     private final int smtpServerPort;
     private final String mailTransferProtocol;
 
-    private SmtpMailSender(String mailTransferProtocol,
+    protected SmtpMailSender(String mailTransferProtocol,
                            String smtpHost,
                            int smtpServerPort,
                            String smtpUser,
