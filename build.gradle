@@ -11,6 +11,7 @@ lombok {
 
 ext {
     assertJVersion = '3.10.0'
+    embeddedRedisVersion = '0.6'
     greenMailVersion = '1.5.8'
     jacksonVersion = '2.9.7'
     jedisVersion = '2.9.0'
@@ -46,6 +47,7 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
     testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoVersion
     testCompile group: 'com.icegreen', name: 'greenmail', version: greenMailVersion
+    testCompile group: 'com.github.kstyrc', name: 'embedded-redis', version: embeddedRedisVersion
 }
 
 test {
