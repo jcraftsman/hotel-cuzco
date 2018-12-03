@@ -41,6 +41,11 @@ class RoomRedisRepositoryIntTest {
     }
 
     @Test
+    void it_should_be_empty() {
+        assertThat(roomRedisRepository.isEmpty()).isTrue();
+    }
+
+    @Test
     void it_should_fetch_room_object_with_the_same_attributes_after_saving() {
         // Given
         Room savedRoom = new Room(ROOM_NUMBER, ROOM_DESCRIPTION, ROOM_CAPACITY);
@@ -51,5 +56,18 @@ class RoomRedisRepositoryIntTest {
 
         // Then
         assertThat(fetchedRoom).isEqualToComparingFieldByFieldRecursively(savedRoom);
+    }
+
+    @Test
+    void it_should_not_be_empty_when_a_room_is_saved() {
+        // Given
+        Room savedRoom = new Room(ROOM_NUMBER, ROOM_DESCRIPTION, ROOM_CAPACITY);
+        roomRedisRepository.save(savedRoom);
+
+        // When
+        boolean isRepositoryEmpty = roomRedisRepository.isEmpty();
+
+        // Then
+        assertThat(isRepositoryEmpty).isFalse();
     }
 }

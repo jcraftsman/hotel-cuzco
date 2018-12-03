@@ -5,6 +5,8 @@ import hotel.cuzco.booking.domain.reservation.RoomRepository;
 
 public class Bootstrap {
     public static void setupCuzcoRooms(RoomRepository roomRepository) {
-        Hotel.CUZCO().allRooms().forEach(roomRepository::save);
+        if (roomRepository.isEmpty()) {
+            Hotel.CUZCO().allRooms().forEach(roomRepository::save);
+        }
     }
 }

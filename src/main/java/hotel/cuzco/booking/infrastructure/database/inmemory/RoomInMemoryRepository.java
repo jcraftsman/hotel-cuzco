@@ -43,6 +43,11 @@ public class RoomInMemoryRepository implements RoomRepository {
         return reservation.map((resa) -> rooms.get(resa.roomId()));
     }
 
+    @Override
+    public boolean isEmpty() {
+        return rooms.isEmpty();
+    }
+
     public void addAll(Iterable<Room> allRooms) {
         allRooms.forEach(this::save);
     }

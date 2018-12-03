@@ -10,4 +10,6 @@ public interface RoomRepository {
     Iterable<Room> all();
 
     Optional<Room> getByReservation(ReservationId reservationId);
+
+    boolean isEmpty();
 }
