@@ -27,7 +27,7 @@ class EventDispatcherBusMiddlewareTest {
 
     @BeforeEach
     void setUp() {
-        List<CommandHandler> commandHandlers = asList(
+        List<CommandHandler<?, ?>> commandHandlers = asList(
                 new OrderFlowersDeliveryCommandHandler(),
                 new ScheduleCheckoutReminderCommandHandler());
         var commandDispatcher = new CommandDispatcher(commandHandlers);

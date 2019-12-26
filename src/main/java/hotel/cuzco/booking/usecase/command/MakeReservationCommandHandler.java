@@ -1,5 +1,6 @@
 package hotel.cuzco.booking.usecase.command;
 
+import common.ddd.patterns.Command;
 import common.ddd.patterns.CommandHandler;
 import common.ddd.patterns.CommandResponse;
 import hotel.cuzco.booking.domain.command.MakeReservationCommand;
@@ -22,7 +23,7 @@ public class MakeReservationCommandHandler implements CommandHandler<CommandResp
     }
 
     @Override
-    public Class listenTo() {
+    public Class<? extends Command> listenTo() {
         return MakeReservationCommand.class;
     }
 }

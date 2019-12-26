@@ -1,14 +1,14 @@
 package hotel.cuzco.booking.infrastructure.web.rest.api;
 
 import com.eclipsesource.json.Json;
+import common.ddd.patterns.CommandResponse;
 import hotel.cuzco.booking.domain.command.CancelReservationCommand;
-import hotel.cuzco.booking.usecase.command.CancelReservationCommandHandler;
 import hotel.cuzco.booking.domain.command.MakeReservationCommand;
-import hotel.cuzco.booking.usecase.command.MakeReservationCommandHandler;
 import hotel.cuzco.booking.domain.reservation.ReservationId;
 import hotel.cuzco.booking.infrastructure.web.rest.json.ReservationMadeDto;
+import hotel.cuzco.booking.usecase.command.CancelReservationCommandHandler;
+import hotel.cuzco.booking.usecase.command.MakeReservationCommandHandler;
 import hotel.cuzco.middleware.commands.CommandDispatcher;
-import common.ddd.patterns.CommandResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spark.Request;
@@ -18,9 +18,7 @@ import java.time.LocalDate;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.*;
 
 class RoomsReservationApiTest {
 
@@ -44,8 +42,8 @@ class RoomsReservationApiTest {
         makeReservationCommandHandler = mock(MakeReservationCommandHandler.class);
         var cancelReservationCommandHandler = mock(CancelReservationCommandHandler.class);
         var commandHandlers = asList(makeReservationCommandHandler, cancelReservationCommandHandler);
-        given(cancelReservationCommandHandler.listenTo()).willReturn(CancelReservationCommand.class);
-        given(makeReservationCommandHandler.listenTo()).willReturn(MakeReservationCommand.class);
+        willReturn(CancelReservationCommand.class).given(cancelReservationCommandHandler).listenTo();
+        willReturn(MakeReservationCommand.class).given(makeReservationCommandHandler).listenTo();
         var commandDispatcher = new CommandDispatcher(commandHandlers);
         roomsReservationApi = new RoomsReservationApi(commandDispatcher);
         request = mock(Request.class);

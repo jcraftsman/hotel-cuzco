@@ -25,7 +25,7 @@ public class LoggerMiddleware implements CommandBusMiddleware {
     }
 
     @Override
-    public <R extends CommandResponse, C extends Command> R dispatch(C command) {
+    public <R extends CommandResponse<?>, C extends Command> R dispatch(C command) {
         var beforeDispatching = LocalDateTime.now();
         R dispatchedCommandResponse = nextCommandBus.dispatch(command);
         var commandHandlingDuration = Duration.between(LocalDateTime.now(), beforeDispatching);

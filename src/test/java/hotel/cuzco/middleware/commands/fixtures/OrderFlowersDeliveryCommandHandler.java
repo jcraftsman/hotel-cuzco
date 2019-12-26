@@ -1,5 +1,6 @@
 package hotel.cuzco.middleware.commands.fixtures;
 
+import common.ddd.patterns.Command;
 import common.ddd.patterns.CommandHandler;
 import common.ddd.patterns.CommandResponse;
 import hotel.cuzco.middleware.events.fixtures.FlowersDeliveryOrdered;
@@ -15,7 +16,7 @@ public class OrderFlowersDeliveryCommandHandler implements CommandHandler<Comman
     }
 
     @Override
-    public Class listenTo() {
+    public Class<? extends Command> listenTo() {
         return OrderFlowersDeliveryCommand.class;
     }
 }

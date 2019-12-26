@@ -1,5 +1,6 @@
 package hotel.cuzco.middleware.commands.fixtures;
 
+import common.ddd.patterns.Command;
 import common.ddd.patterns.CommandHandler;
 import common.ddd.patterns.CommandResponse;
 import hotel.cuzco.middleware.events.fixtures.CheckoutReminderScheduled;
@@ -19,7 +20,7 @@ public class ScheduleCheckoutReminderCommandHandler
     }
 
     @Override
-    public Class listenTo() {
+    public Class<? extends Command> listenTo() {
         return ScheduleCheckoutReminderCommand.class;
     }
 }

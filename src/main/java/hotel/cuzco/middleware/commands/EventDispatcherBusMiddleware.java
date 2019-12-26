@@ -14,7 +14,7 @@ public class EventDispatcherBusMiddleware implements CommandBusMiddleware {
         this.eventBus = eventBus;
     }
 
-    public <R extends CommandResponse, C extends Command> R dispatch(C command) {
+    public <R extends CommandResponse<?>, C extends Command> R dispatch(C command) {
         R commandResponse = commandBus.dispatch(command);
         List<Event> events = commandResponse.getEvents();
         events.forEach(eventBus::publish);

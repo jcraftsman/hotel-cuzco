@@ -23,7 +23,7 @@ class CommandBusTest {
 
     @BeforeEach
     void setUp() {
-        List<CommandHandler> commandHandlers = asList(
+        List<CommandHandler<?, ?>> commandHandlers = asList(
                 new OrderFlowersDeliveryCommandHandler(),
                 new ScheduleCheckoutReminderCommandHandler());
         commandBus = new CommandDispatcher(commandHandlers);
