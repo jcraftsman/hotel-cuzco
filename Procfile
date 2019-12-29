@@ -1,0 +1,1 @@
+web: build/install/hotel-cuzco/bin/hotel-cuzco
