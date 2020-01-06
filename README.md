@@ -1,6 +1,8 @@
 # Hotel Cuzco
 [![Build Status](https://travis-ci.org/jcraftsman/hotel-cuzco.svg?branch=master)](https://travis-ci.org/jcraftsman/hotel-cuzco)
 
+## The problem
+
 "Hotel Cuzco" is a charming hotel in Cusco city, Peru.
 It has been successful in the last years, so the administration decided to build a simple booking system and get rid of the excel sheet they were maintaining for reservations.
 
@@ -21,7 +23,7 @@ There are 12 rooms in the hotel:
 |   3   | 303  | 3 single beds - A/C - shared bathroom                                      | 3 guests |
 |   3   | 304  | 2 single beds - shared bathroom                                            | 2 guests |
 
-## Booking
+### Booking
 
 The booking system should offer 2 main features:
 
@@ -34,7 +36,7 @@ The booking system should offer 2 main features:
         - The system saves the reservation
         - The room is now considered as unavailable for booking during the period of reservation  
 
-## Annual closing periods and planned interventions
+### Annual closing periods and planned interventions
 
 The hotel closes 2 weeks per year for annual holidays but also for renovation.
 
@@ -42,18 +44,18 @@ It is usually around the Pachacamilla holidays (October, 18th to 28th).
 
 Sometimes the hotel plans an intervention to fix something broken in a room. The room cannot be booked at this date.
 
-## Pricing
+### Pricing
 
 The rate depends on the type of room and the season.
 
-### Discounts
+#### Discounts
 
 Discounts can apply to:
 
 - reservations made by returning customers
 - reservations made by some third party partners
 
-## Billing
+### Billing
 
 During his stay, a customer can ask for some services (laundry, extra meal, breakfast, tour... etc.) that will be added to his bill.
 
